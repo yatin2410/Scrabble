@@ -29,10 +29,8 @@ def crossCheck(char,row,x):
         nword = boardArray[row][x] + nword
         row-=1
     while k<15 and boardArray[k][x] != '#':
-        nword = boardArray[k][x] + nword
+        nword =  nword + boardArray[k][x] 
         k+=1
-    if nword == "SME":
-        print(row+1,x+1)
     if nword in completion_dawg:
         return True
     else :
@@ -40,13 +38,18 @@ def crossCheck(char,row,x):
 
 
 def checkWord(word,row,x,col,rack,id):
-    if x >= 15:
+    if x == 15 and word in completion_dawg == False:
         return
     global possArray
     global possStart
+    if x == 15:
+        possArray.append(word)
+        if id == 1:
+            possStart.append([row,x-len(word),id])
+        else:
+            possStart.append([x-len(word),row,id])
+        return
     if x > col and word in completion_dawg and x<15  and boardArray[row][x]=='#':
-        if word == "MEMOIRS":
-            print(boardArray[row][x],row+1,x+1)
         possArray.append(word)
         if id == 1:
             possStart.append([row,x-len(word),id])
