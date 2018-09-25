@@ -1,6 +1,8 @@
 import os
 import dawg
 from string import ascii_uppercase
+import string
+import random
 
 def getboard():
     f =open('board.txt','r')
@@ -173,13 +175,12 @@ def costFunc(strr,i,j,id):
 
     return cost
 
-
-if __name__ == "__main__":
-
+def move():
     getboard()
-    getrack()
+    global stringRack2
+    global cRack
+    stringRack2 = cRack
     getboardValue()
-    print("Your Rack is : " + stringRack2)
 
     global possArray
     possArray = []
@@ -187,7 +188,7 @@ if __name__ == "__main__":
     possStart = []
 
     laodDist()
-
+    global boardArray
     if boardArray[7][7] == '#':
         for x in range(0,7):
             checkWord("",7,x,7,stringRack2,1)
@@ -208,6 +209,8 @@ if __name__ == "__main__":
         exit(0)
 
     getboardCopy()
+    global cscore 
+
     if(possStart[ansIndex][2]==1):
         print(" ---- HORIZONTLY ---- ")
         f = open('board.txt','w')
@@ -233,3 +236,66 @@ if __name__ == "__main__":
                 f.write('\n')
 
     print("Best Posible String is " + possArray[ansIndex] + ". Starting is at row "+ str(possStart[ansIndex][0]+1)+" and col at " + str(possStart[ansIndex][1]+1)+" and point is "+str(mx))
+    cscore += mx
+
+def userMove():
+    id = input("Enter 1 for horizontal word\nEnter 2 for vertical word\n>")
+    if id != 1 or id != 2:
+        print("select proper choice\n")
+        return False
+    word = input('enter your word\n>')
+    if not word in completion_dawg:
+        print("Word does not exist\n")
+        return False
+    row = input('Enter row of your word starting point')
+    col = input('Enter column of your word starting point')
+    
+
+
+
+def changeRack(which):
+    if which%2==0:
+        global cRack
+        cRack = ""
+        for i in range(1,7):
+            cRack += random.choice(string.ascii_uppercase)
+    else:
+        global userRack
+        userRack = ""
+        for i in range(1,7):
+            userRack += random.choice(string.ascii_uppercase)
+
+
+if __name__ == "__main__":
+    print("----------- ARE YOU READY TO LOOSE ? ------------")
+    userName = input('Please Enter Your Name: ')
+    movecnt = 0
+    global cscore
+    cscore = 0
+    global userScore
+    userScore = 0
+    global cRack
+    global userRack
+    changeRack(0)
+    changeRack(1)
+    while 1:
+        print("Computer Score : " + cscore +"\t\t\t"+userName+" Score :"+userScore+"\n")
+        print("Computer's Rack: "+cRack+"\t\t\t"+userName+"'s Rack" + userRack+"\n")
+        if movecnt%2==0:
+            move()
+            changeRack(movecnt)
+            movecnt += 1
+        else:
+            userIn = input("1.) To Place Word \n2.) To Change Rack \n3.) To Quit\n>")
+        if userIn == 1:
+            if userMove() == False:
+                continue
+            changeRack(movecnt)
+            movecnt += 1
+        elif userIn == 2:
+            changRack(movecnt)
+            movecnt += 1
+        elif userIn==3:
+            exit(0)
+        else :
+            print("Please select valid choice \n>")
