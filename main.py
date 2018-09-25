@@ -144,7 +144,6 @@ def costFunc(strr,i,j,id):
     cost = 0
     dw = 0
     tw = 0
-
     if id == 1:
         for col in range(j,j+len(strr)):
             if boardValue[i][col] == "1" or boardValue[i][col] == "2" or boardValue[i][col] == "3" :
@@ -179,9 +178,10 @@ def move():
     getboard()
     global stringRack2
     global cRack
+    getrack()
     stringRack2 = cRack
     getboardValue()
-
+    
     global possArray
     possArray = []
     global possStart
@@ -209,8 +209,7 @@ def move():
         exit(0)
 
     getboardCopy()
-    global cscore 
-
+    
     if(possStart[ansIndex][2]==1):
         print(" ---- HORIZONTLY ---- ")
         f = open('board.txt','w')
@@ -236,20 +235,100 @@ def move():
                 f.write('\n')
 
     print("Best Posible String is " + possArray[ansIndex] + ". Starting is at row "+ str(possStart[ansIndex][0]+1)+" and col at " + str(possStart[ansIndex][1]+1)+" and point is "+str(mx))
+    
+    global cscore 
     cscore += mx
 
 def userMove():
-    id = input("Enter 1 for horizontal word\nEnter 2 for vertical word\n>")
-    if id != 1 or id != 2:
+    getboard()
+    global boardArray
+    getboardCopy()
+    
+    d = input("Enter 1 for horizontal word\nEnter 2 for vertical word\n>")
+    id = int(d)
+    if id != 1 and id != 2:
         print("select proper choice\n")
         return False
     word = input('enter your word\n>')
     if not word in completion_dawg:
         print("Word does not exist\n")
         return False
-    row = input('Enter row of your word starting point')
-    col = input('Enter column of your word starting point')
+    ro = input('Enter row of your word starting point\n>')
+    co = input('Enter column of your word starting point\n>')
+    row = int(ro)
+    col = int(co)
+    x=row-1
+    y=col-1
+    nword=word
+    global boardArray
+    global userRack
+
+    if id ==1:
+        for i in range(0,len(word)-1):
+            if not crossCheck(word[i],x,y):
+                print("Cross Check is not valid\n")
+                return False
+
+            j = userRack.find(word[i])
+            if boardArray[x][y+i]!='#' and boardArray[x][y+i] != word[i]:
+                print("Wrong Placed word entered \n")
+                return False
+            elif boardArray[x][y+i]=='#':
+                if j == -1:
+                    print("letter "+word[i]+" does not exist in rack \n")
+                    return False
+                elif j!=-1:
+                    userRack = userRack[0:j] + userRack[j+1:]
+
+    if id ==2:
+        boardArray = [*zip(*boardArray)]
+        for i in range(0,len(word)-1):
+            if not crossCheck(word[i],x,y):
+                print("Cross Check is not valid\n")
+                return False
+
+        boardArray = [*zip(*boardArray)]
+        for i in range(0,len(word)-1):    
+            j = userRack.find(word[i])
+            print(boardArray[x+i][y],x,y,i)
+            if boardArray[x+i][y]!='#' and boardArray[x+i][y] != word[i]:
+                print("Wrong Placed word entered \n")
+                return False
+            elif boardArray[x+i][y]=='#':
+                if j == -1:
+                    print("letter "+word[i]+" does not exist in rack \n")
+                    return False
+                elif j!=-1:
+                    userRack = userRack[0:j] + userRack[j+1:]
     
+    global userScore 
+    userScore += costFunc(word,row-1,col-1,id)
+
+    getboardCopy()
+    
+    if(id==1):
+        print(" ---- HORIZONTLY ---- \nWord is :"+word+"\n")
+        f = open('board.txt','w')
+        for i,strr in enumerate(boardCopy):
+            for j,char in enumerate(strr):
+                if i==row-1 and j >= col-1 and j<col-1+len(word):
+                    f.write(word[j-col+1])
+                else :
+                    f.write(strr[j])
+            if i != len(boardCopy)-1: 
+                f.write('\n')
+        
+    if(id==2):
+        print(" ---- VERTICALLY---- \nWord is :"+word+"\n")
+        f = open('board.txt','w')
+        for i,strr in enumerate(boardCopy):
+            for j,char in enumerate(strr):
+                if j==col-1 and i >= row-1 and i<row-1+len(word):
+                    f.write(word[i-row+1])
+                else :
+                    f.write(strr[j])
+            if i != len(boardCopy)-1: 
+                f.write('\n')
 
 
 
@@ -257,13 +336,14 @@ def changeRack(which):
     if which%2==0:
         global cRack
         cRack = ""
-        for i in range(1,7):
+        for i in range(0,7):
             cRack += random.choice(string.ascii_uppercase)
     else:
         global userRack
         userRack = ""
-        for i in range(1,7):
+        for i in range(0,7):
             userRack += random.choice(string.ascii_uppercase)
+
 
 
 if __name__ == "__main__":
@@ -279,23 +359,27 @@ if __name__ == "__main__":
     changeRack(0)
     changeRack(1)
     while 1:
-        print("Computer Score : " + cscore +"\t\t\t"+userName+" Score :"+userScore+"\n")
-        print("Computer's Rack: "+cRack+"\t\t\t"+userName+"'s Rack" + userRack+"\n")
+        print('\n---Current Board----\n')
+        f = open('board.txt','r')
+        print(f.read())
+        f.close()
+        print("\n\n\nComputer Score : " + str(cscore) +"\t\t\t"+str(userName)+" Score :"+str(userScore)+"\n")
+        print("Computer's Rack: "+cRack+"\t\t\t"+userName+"'s Rack: " + userRack+"\n\n\n")
         if movecnt%2==0:
             move()
             changeRack(movecnt)
             movecnt += 1
         else:
             userIn = input("1.) To Place Word \n2.) To Change Rack \n3.) To Quit\n>")
-        if userIn == 1:
-            if userMove() == False:
-                continue
-            changeRack(movecnt)
-            movecnt += 1
-        elif userIn == 2:
-            changRack(movecnt)
-            movecnt += 1
-        elif userIn==3:
-            exit(0)
-        else :
-            print("Please select valid choice \n>")
+            if userIn == '1':
+                if userMove() == False:
+                    continue
+                changeRack(movecnt)
+                movecnt += 1
+            elif userIn == '2':
+                changeRack(movecnt)
+                movecnt += 1
+            elif userIn=='3':
+                exit(0)
+            else :
+                print("Please select valid choice \n>")

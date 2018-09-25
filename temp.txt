@@ -1,0 +1,66 @@
+    if id==1:
+        k=y+1+len(word)
+        y-=1
+        while y>=0 and boardArray[x][y] != '#':
+            nword = boardArray[x][y] + nword
+            y-=1
+
+        while k<15 and boardArray[x][k] != '#':
+            nword =  nword + boardArray[x][k] 
+            k+=1
+    elif id==2:
+        k=x+1+len(word)
+        x-=1
+        while x>=0 and boardArray[x][y] != '#':
+            nword = boardArray[x][y] + nword
+            x-=1
+
+        while k<15 and boardArray[k][y] != '#':
+            nword =  nword + boardArray[k][y] 
+            k+=1
+    if not nword in completion_dawg:
+        print("Word "+ nword + " does not exist\n")
+        return False
+
+
+
+
+
+
+
+    print("----------- ARE YOU READY TO LOOSE ? ------------")
+    userName = input('Please Enter Your Name: ')
+    movecnt = 0
+    global cscore
+    cscore = 0
+    global userScore
+    userScore = 0
+    global cRack
+    global userRack
+    changeRack(0)
+    changeRack(1)
+    while 1:
+        print('\n---Current Board----\n')
+        f = open('board.txt','r')
+        print(f.read())
+        f.close()
+        print("\n\n\nComputer Score : " + str(cscore) +"\t\t\t"+str(userName)+" Score :"+str(userScore)+"\n")
+        print("Computer's Rack: "+cRack+"\t\t\t"+userName+"'s Rack: " + userRack+"\n\n\n")
+        if movecnt%2==0:
+            move()
+            changeRack(movecnt)
+            movecnt += 1
+        else:
+            userIn = input("1.) To Place Word \n2.) To Change Rack \n3.) To Quit\n>")
+            if userIn == '1':
+                if userMove() == False:
+                    continue
+                changeRack(movecnt)
+                movecnt += 1
+            elif userIn == '2':
+                changeRack(movecnt)
+                movecnt += 1
+            elif userIn=='3':
+                exit(0)
+            else :
+                print("Please select valid choice \n>")
