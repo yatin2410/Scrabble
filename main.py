@@ -265,7 +265,7 @@ def userMove():
 
     if id ==1:
         for i in range(0,len(word)-1):
-            if not crossCheck(word[i],x,y):
+            if not crossCheck(word[i],x,y+i):
                 print("Cross Check is not valid\n")
                 return False
 
@@ -283,7 +283,7 @@ def userMove():
     if id ==2:
         boardArray = [*zip(*boardArray)]
         for i in range(0,len(word)-1):
-            if not crossCheck(word[i],x,y):
+            if not crossCheck(word[i],y,x+i):
                 print("Cross Check is not valid\n")
                 return False
 
@@ -347,7 +347,7 @@ def changeRack(which):
 
 
 if __name__ == "__main__":
-    print("----------- ARE YOU READY TO LOOSE ? ------------")
+    print("\n\n\n----------- ARE YOU READY TO LOSE ? ------------\n\n\n")
     userName = input('Please Enter Your Name: ')
     movecnt = 0
     global cscore
@@ -361,7 +361,11 @@ if __name__ == "__main__":
     while 1:
         print('\n---Current Board----\n')
         f = open('board.txt','r')
-        print(f.read())
+        print("  123456789012345")
+        strr = (f.read()).split('\n')
+        for i,s in enumerate(strr):
+            print(str((i+1)%10)+" "+s+" "+str((i+1)%10))
+        print("  123456789012345")
         f.close()
         print("\n\n\nComputer Score : " + str(cscore) +"\t\t\t"+str(userName)+" Score :"+str(userScore)+"\n")
         print("Computer's Rack: "+cRack+"\t\t\t"+userName+"'s Rack: " + userRack+"\n\n\n")
