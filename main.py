@@ -205,8 +205,9 @@ def move():
             ansIndex = i
     
     if ansIndex == -1:
-        print("Sorry No words possible from this current rack :( ")
-        exit(0)
+        print("Sorry No words possible from this current rack \n Changing Rack \n")
+        changeRack(0)
+        return
 
     getboardCopy()
     
@@ -291,7 +292,6 @@ def userMove():
         boardArray = [*zip(*boardArray)]
         for i in range(0,len(word)-1):    
             j = userRack.find(word[i])
-            print(boardArray[x+i][y],x,y,i)
             if boardArray[x+i][y]!='#' and boardArray[x+i][y] != word[i]:
                 print("Wrong Placed word entered \n")
                 return False
@@ -337,17 +337,28 @@ def changeRack(which):
     if which%2==0:
         global cRack
         cRack = ""
-        for i in range(0,7):
+        for i in range(0,2):
+            cRack += random.choice(['A','E','I','O','U'])
+        for i in range(2,7):
             cRack += random.choice(string.ascii_uppercase)
     else:
         global userRack
         userRack = ""
-        for i in range(0,7):
+        for i in range(0,2):
+            userRack += random.choice(['A','E','I','O','U'])
+        for i in range(2,7):
             userRack += random.choice(string.ascii_uppercase)
 
 
 
 if __name__ == "__main__":
+    f = open('board.txt','w')
+    for i in range(0,15):
+        if i==14:
+            f.write("###############")
+        else:
+           f.write("###############\n")
+    f.close()
     print("\n\n\n----------- ARE YOU READY TO LOSE ? ------------\n\n\n")
     userName = input('Please Enter Your Name: ')
     movecnt = 0
@@ -379,6 +390,7 @@ if __name__ == "__main__":
                 changeRack(movecnt)
                 movecnt += 1
             elif userIn=='3':
+                print("SEE!!!! Told You")
                 exit(0)
             else :
                 print("Please select valid choice \n>")
