@@ -9,6 +9,14 @@ def getboard():
     global boardArray
     boardArray = stringboard.split('\n')
 
+def getboardCopy():
+    f =open('board.txt','r')
+    stringboard = f.read()
+    f.close()
+    global boardCopy
+    boardCopy = stringboard.split('\n')
+
+
 def getboardValue():
     f =open('boardValue.txt','r')
     stringboard = f.read()
@@ -20,14 +28,36 @@ def getboardValue():
 def getrack():
     f=open('rack.txt','r')
     global stringRack2
-    rackArray=(f.read()).split('\n')
-    stringRack2 = rackArray[0]
+    stringRack2 = f.read()
     global rackValues
-    rackValues = {}
-    for c in ascii_uppercase:
-        rackValues[c] = 1
-    for i,num in enumerate(rackArray[1]):
-        rackValues[stringRack2[i]] = num
+    rackValues = 	{
+	"A":    1,	
+	"B":    3,	
+    "C":    3,	
+	"D":    2,	
+    "E":	1,	
+	"F":	4,	
+	"G":    2,	
+    "H":	4,	
+	"I":	1,	
+	"J":	8,	
+	"K":	5,	
+	"L":	1,	
+	"M":	3,	
+	"N":	1,	
+	"O":	1,	
+	"P":	3,	
+	"Q":	10,	
+	"R":	1,	
+	"S":	1,	
+	"T":    1,	
+	"U":	1,	
+	"V":    4,	
+	"W":	4,	
+	"X":	8,	
+	"Y":	4,	
+	"Z":	10	
+	}
     f.close()
 
 def laodDist():
@@ -41,12 +71,15 @@ def crossCheck(char,row,x):
     nword = char
     k = row+1
     row-=1
+
     while row>=0 and boardArray[row][x] != '#':
         nword = boardArray[row][x] + nword
         row-=1
+
     while k<15 and boardArray[k][x] != '#':
         nword =  nword + boardArray[k][x] 
         k+=1
+
     if nword in completion_dawg:
         return True
     else :
@@ -56,23 +89,30 @@ def crossCheck(char,row,x):
 def checkWord(word,row,x,col,rack,id):
     if x == 15 and ((word in completion_dawg) == False):
         return
+
     global possArray
     global possStart
+
     if x == 15:
-        possArray.append(word)
-        if id == 1:
-            possStart.append([row,x-len(word),id])
-        else:
-            possStart.append([x-len(word),row,id])
+        if len(rack) < 7 and boardArray[row][x-len(word)-1]=='#':
+            possArray.append(word)
+            if id == 1:
+                possStart.append([row,x-len(word),id])
+            else:
+                possStart.append([x-len(word),row,id])
         return
-    if x > col and word in completion_dawg and x<15  and boardArray[row][x]=='#':
-        possArray.append(word)
-        if id == 1:
-            possStart.append([row,x-len(word),id])
-        else:
-            possStart.append([x-len(word),row,id])
+
+    if x > col and word in completion_dawg and x<15  and boardArray[row][x]=='#' and len(rack) < 7:
+        if boardArray[row][x-len(word)-1]=='#':
+            possArray.append(word)
+            if id == 1:
+                possStart.append([row,x-len(word),id])
+            else:
+                possStart.append([x-len(word),row,id])
+
     if len(rack) ==0 :
         return
+
     if boardArray[row][x] == '#':
         for i,char in enumerate(rack):
             word = word + char
@@ -92,9 +132,9 @@ def findPlace(id):
             if element!='#' and boardArray[i][j-1]=='#' :
                 for x in range(max(j-7,0),min(j,14)):
                     checkWord("",i,x,j,stringRack2,id)
-                    if i+1<15:
+                    if i+1<15 and boardArray[i+1][j]=='#':
                         checkWord("",i+1,x,j,stringRack2,id)
-                    if i-1>=0:
+                    if i-1>=0 and boardArray[i-1][j]=='#' :
                         checkWord("",i-1,x,j,stringRack2,id)
                     
 
@@ -102,6 +142,7 @@ def costFunc(strr,i,j,id):
     cost = 0
     dw = 0
     tw = 0
+
     if id == 1:
         for col in range(j,j+len(strr)):
             if boardValue[i][col] == "1" or boardValue[i][col] == "2" or boardValue[i][col] == "3" :
@@ -112,6 +153,7 @@ def costFunc(strr,i,j,id):
                 dw+=1
             if boardValue[i][col] == "5":
                 tw+=1
+
         cost = cost * (2 ** dw)
         cost = cost * (3 ** tw)
 
@@ -125,32 +167,69 @@ def costFunc(strr,i,j,id):
                 dw+=1
             if boardValue[row][j] == 5:
                 tw+=1
+
         cost = cost * (2 ** dw)
         cost = cost * (3 ** tw)
+
     return cost
 
 
 if __name__ == "__main__":
+
     getboard()
     getrack()
     getboardValue()
     print("Your Rack is : " + stringRack2)
+
     global possArray
     possArray = []
     global possStart
     possStart = []
+
     laodDist()
-    findPlace(1)
-    boardArray = [*zip(*boardArray)]
-    findPlace(2)
+
+    if boardArray[7][7] == '#':
+        for x in range(0,7):
+            checkWord("",7,x,7,stringRack2,1)
+    else :
+        findPlace(1)
+        boardArray = [*zip(*boardArray)]
+        findPlace(2)
+        
     mx = -1
     ansIndex = -1
     for i,strr in enumerate(possArray):
         if costFunc(strr,possStart[i][0],possStart[i][1],possStart[i][2]) > mx:
             mx = costFunc(strr,possStart[i][0],possStart[i][1],possStart[i][2])
             ansIndex = i
+    
+    if ansIndex == -1:
+        print("Sorry No words possible from this current rack :( ")
+        exit(0)
+
+    getboardCopy()
     if(possStart[ansIndex][2]==1):
         print(" ---- HORIZONTLY ---- ")
+        f = open('board.txt','w')
+        for i,strr in enumerate(boardCopy):
+            for j,char in enumerate(strr):
+                if i==possStart[ansIndex][0] and j >= possStart[ansIndex][1] and j<possStart[ansIndex][1]+len(possArray[ansIndex]):
+                    f.write(possArray[ansIndex][j-possStart[ansIndex][1]])
+                else :
+                    f.write(strr[j])
+            if i != len(boardCopy)-1: 
+                f.write('\n')
+
     if(possStart[ansIndex][2]==2):
         print(" ---- VERTICALLY---- ")
-    print("Maximum Posible String is " + possArray[ansIndex] + ". Starting is at row "+ str(possStart[ansIndex][0]+1)+" and col at " + str(possStart[ansIndex][1]+1)+" and point is "+str(mx))
+        f = open('board.txt','w')
+        for i,strr in enumerate(boardCopy):
+            for j,char in enumerate(strr):
+                if j==possStart[ansIndex][1] and i >= possStart[ansIndex][0] and i<possStart[ansIndex][0]+len(possArray[ansIndex]):
+                    f.write(possArray[ansIndex][i-possStart[ansIndex][0]])
+                else :
+                    f.write(strr[j])
+            if i != len(boardCopy)-1: 
+                f.write('\n')
+
+    print("Best Posible String is " + possArray[ansIndex] + ". Starting is at row "+ str(possStart[ansIndex][0]+1)+" and col at " + str(possStart[ansIndex][1]+1)+" and point is "+str(mx))
