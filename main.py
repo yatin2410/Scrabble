@@ -205,8 +205,13 @@ def move():
             ansIndex = i
     
     if ansIndex == -1:
-        print("Sorry No words possible from this current rack \n Changing Rack \n")
-        changeRack(0)
+        global passcnt 
+        if passcnt == 1:
+            print("END GAME")
+            exit(0)
+        else:
+            print("Changing Rack ")
+            changeRack(0)
         return
 
     getboardCopy()
@@ -349,7 +354,9 @@ def changeRack(which):
         for i in range(2,7):
             userRack += random.choice(string.ascii_uppercase)
 
-
+def passUser():
+    global passcnt
+    passcnt = 1
 
 if __name__ == "__main__":
     f = open('board.txt','w')
@@ -380,16 +387,22 @@ if __name__ == "__main__":
             changeRack(movecnt)
             movecnt += 1
         else:
-            userIn = input("1.) To Place Word \n2.) To Change Rack \n3.) To Quit\n>")
+            userIn = input("1.) To Place Word \n2.) To Change Rack \n3.) To Pass \n4.) To Quit\n>")
+            global passcnt
             if userIn == '1':
                 if userMove() == False:
                     continue
                 changeRack(movecnt)
+                passcnt = 0
                 movecnt += 1
             elif userIn == '2':
                 changeRack(movecnt)
+                passcnt = 0
                 movecnt += 1
             elif userIn=='3':
+                passUser()
+                movecnt += 1
+            elif userIn=='4':
                 print("SEE!!!! Told You")
                 exit(0)
             else :

@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		dictionary.txt = dictionary.txt
 		main.py = main.py
 		rack.txt = rack.txt
+		temp.py = temp.py
 	EndProjectSection
 EndProject
 Global
