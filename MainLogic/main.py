@@ -379,7 +379,7 @@ if __name__ == "__main__":
     changeRack(1)
     while 1:
         print('\n---Current Board----\n')
-        os.system('python temp.py')
+        os.system('python printBoard.py')
         print("\n\n\nComputer Score : " + str(cscore) +"\t\t\t"+str(userName)+" Score :"+str(userScore)+"\n")
         print("Computer's Rack: "+cRack+"\t\t\t"+userName+"'s Rack: " + userRack+"\n\n\n")
         if movecnt%2==0:
