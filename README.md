@@ -2,6 +2,8 @@
 
 This Repo is for making Scrabble game. Please See these [PPT](https://drive.google.com/open?id=1FNwtgogadEQDWEKhIVq2P8qToCxcWsjp) for understanding algorithm and working model.
 
+![](demo.gif)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
