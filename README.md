@@ -22,11 +22,6 @@ first clone this git repository or download zip file.
 git clone https://github.com/milandungrani/scrabble.git
 ```
 
-Now go to folder
-
-```
-cd scrabble\MainLogic
-```
 
 Installing dependancies
 
@@ -35,6 +30,12 @@ pip install dawg
 ```
 ```
 pip install texttable
+```
+
+Now, go to folder
+
+```
+cd scrabble\MainLogic
 ```
 
 starting script
