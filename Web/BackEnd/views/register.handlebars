@@ -1,0 +1,52 @@
+﻿{{#if err}}
+<div class="alert alert-danger">
+    {{err}}
+</div>
+{{/if}}
+
+<h2 class="page-header">Account Register</h2>
+
+{{#if errors}}
+{{#each errors}}
+<div class="alert alert-danger">
+    {{msg}}
+</div>
+{{/each}}
+{{/if}}
+
+<form method="post" action="/users/register">
+
+    <div class="form-group">
+        <label>Name: </label>
+        <input type="text" class="form-control" name="name" placeholder="Name" />
+    </div>
+
+    <div class="form-group">
+        <label>UserName:</label>
+        {{#if usernameerr}}
+        <span class="text-danger">{{{usernameerr}}}</span>
+        {{/if}}
+        <input type="text" class="form-control" name="username" placeholder="Username" />
+    </div>
+
+    <div class="form-group">
+        <label>Email:</label>
+        {{#if emailerr}}
+        <span class="text-danger">{{{emailerr}}}</span>
+        {{/if}}
+        <input type="text" class="form-control" name="email" placeholder="Email" />
+    </div>
+
+    <div class="form-group">
+        <label>PassWord: </label>
+        <input type="password" class="form-control" name="password" placeholder="password" />
+    </div>
+
+    <div class="form-group">
+        <label>Confirm Password: </label>
+        <input type="password" class="form-control" name="confirm_password" placeholder="password" />
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+
+</form>

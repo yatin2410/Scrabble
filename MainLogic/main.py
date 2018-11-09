@@ -380,14 +380,14 @@ if __name__ == "__main__":
     while 1:
         print('\n---Current Board----\n')
         os.system('python printBoard.py')
-        print("\n\n\nComputer Score : " + str(cscore) +"\t\t\t"+str(userName)+" Score :"+str(userScore)+"\n")
-        print("Computer's Rack: "+cRack+"\t\t\t"+userName+"'s Rack: " + userRack+"\n\n\n")
+        print("\nComputer Score : " + str(cscore) +"\t\t\t"+str(userName)+" Score :"+str(userScore)+"\n")
+        print("Computer's Rack: "+cRack+"\t"+userName+"'s Rack: " + userRack+"\n")
         if movecnt%2==0:
             move()
             changeRack(movecnt)
             movecnt += 1
         else:
-            userIn = input("1.) To Place Word \n2.) To Change Rack \n3.) To Pass \n4.) To Quit\n>")
+            userIn = input("1.) To Place Word  2.) To Change Rack  3.) To Pass  4.) To Quit\n>")
             global passcnt
             if userIn == '1':
                 if userMove() == False:
@@ -406,4 +406,4 @@ if __name__ == "__main__":
                 print("SEE!!!! Told You")
                 exit(0)
             else :
-                print("Please select valid choice \n>")
+                print("Please select valid choice")

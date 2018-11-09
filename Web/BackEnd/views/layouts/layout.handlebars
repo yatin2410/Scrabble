@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        CodingForum
+    </title>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/bootstrap.css" /> 
+    <script type="text/javascript" src="/javascripts/stray.js"></script>
+</head>
+<body>
+    <div class="container">
+        
+    
+      <header class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills float-right">
+                    {{#if user}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Deshboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/discuss">Discussion Board</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/logout">LogOut</a>
+                    </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/register">Register</a>
+                    </li>
+                    {{/if}}
+
+                </ul>
+            </nav>
+            <h3 class="text-muted">Coding Forum</h3>
+        </header>
+
+      <div class="row marketing">
+          <div class="col-lg-6">
+              {{#if success_msg}}
+              <div class="alert alert-success">{{success_msg}}</div>
+              {{/if}}
+
+              {{#if error_msg}}
+              <div class="alert alert-success">{{error_msg}}</div>
+              {{/if}}
+
+              {{#if error}}
+              <div class="alert alert-success">{{error}}</div>
+              {{/if}}
+
+
+              {{{body}}}
+          </div>
+
+        <footer class="footer">
+            <p>Created By :- Y3</p>
+        </footer>
+
+    </div> <!-- /container -->
+
+</body>
+</html>
