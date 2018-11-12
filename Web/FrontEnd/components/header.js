@@ -1,9 +1,37 @@
 import React from 'react';
 import './main.css';
 import './bootstrap.css';
-
+import axios from 'axios';
 
 class Header extends React.Component{
+
+    constructor(props)
+    {
+        super(props);
+        this.state={
+            playerScore: 0,
+            PCScore: 0,
+            PCRack: "ASJASJK",
+            playerRack: "erdseds"
+        };
+        
+    }
+
+    componentDidMount()
+    {
+        axios.get('/rackandscore')
+        .then(response => this.setState({
+            playerRack:response.data.playerRack,
+            PCRack:response.data.PCRack,
+            playerScore:response.data.playerScore,
+            PCScore:response.data.PCScore
+        }
+        ));
+
+        console.log(this.state);
+
+    }
+
     render(){
         return(
             <div>
@@ -24,22 +52,34 @@ class Header extends React.Component{
                     <div className="left-one">
                         <h5 className="text-success">
                             Your Rack:
+                            <span className="rackscore">
+                            {this.state.playerRack}
+                            </span>
                         </h5>
                         <h5 className="text-success">
                             Your Score:
+                            <span className="rackscore">
+                                {this.state.playerScore}
+                            </span>
                         </h5>
                     </div>
                     <div  className="right-one">
                         <h5 className="text-success">
                             PC's Rack:
+                            <span className="rackscore">
+                                {this.state.PCRack}
+                            </span>
                         </h5>
                         <h5 className="text-success">
                             PC's Score:
+                            <span className="rackscore">
+                                {this.state.PCScore}
+                            </span>
                         </h5>
                     </div>
                     <div className="middle-one">
                         <h2 className="text-danger">
-                            Whose Turn?:
+                            LOG
                         </h2>
                     </div>
                 </div>
