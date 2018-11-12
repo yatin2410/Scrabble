@@ -1,5 +1,7 @@
 const spawn = require("child_process").spawn;
-const pythonProcess = spawn('python',['./main.py']);
+import path from 'path';
+
+const pythonProcess = spawn('python',[path.join(__dirname,'../main.py')]);
 
 
 pythonProcess.stdout.on('data', (data) => {

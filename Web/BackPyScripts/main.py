@@ -5,14 +5,14 @@ import string
 import random
 
 def getboard():
-    f =open('board.txt','r')
+    f =open('./BackPyScripts/board.txt','r')
     stringboard = f.read()
     f.close()
     global boardArray
     boardArray = stringboard.split('\n')
 
 def getboardCopy():
-    f =open('board.txt','r')
+    f =open('./BackPyScripts/board.txt','r')
     stringboard = f.read()
     f.close()
     global boardCopy
@@ -20,7 +20,7 @@ def getboardCopy():
 
 
 def getboardValue():
-    f =open('boardValue.txt','r')
+    f =open('./BackPyScripts/boardValue.txt','r')
     stringboard = f.read()
     f.close()
     global boardValue
@@ -28,7 +28,7 @@ def getboardValue():
 
 
 def getrack():
-    f=open('rack.txt','r')
+    f=open('./BackPyScripts/rack.txt','r')
     global stringRack2
     stringRack2 = f.read()
     global rackValues
@@ -63,7 +63,7 @@ def getrack():
     f.close()
 
 def laodDist():
-    f = open('dictionary.txt','r')
+    f = open('./BackPyScripts/dictionary.txt','r')
     dictArray = (f.read()).split('\n')
     global completion_dawg
     completion_dawg = dawg.CompletionDAWG(dictArray)
@@ -218,7 +218,7 @@ def move():
     
     if(possStart[ansIndex][2]==1):
         print(" ---- HORIZONTLY ---- ")
-        f = open('board.txt','w')
+        f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
                 if i==possStart[ansIndex][0] and j >= possStart[ansIndex][1] and j<possStart[ansIndex][1]+len(possArray[ansIndex]):
@@ -230,7 +230,7 @@ def move():
 
     if(possStart[ansIndex][2]==2):
         print(" ---- VERTICALLY---- ")
-        f = open('board.txt','w')
+        f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
                 if j==possStart[ansIndex][1] and i >= possStart[ansIndex][0] and i<possStart[ansIndex][0]+len(possArray[ansIndex]):
@@ -244,6 +244,10 @@ def move():
     
     global cscore 
     cscore += mx
+    print(cscore)
+    f = open('./BackPyScripts/pcscore.txt','w')
+    f.write(str(cscore))
+    f.close()
 
 def userMove():
     getboard()
@@ -314,7 +318,7 @@ def userMove():
     
     if(id==1):
         print(" ---- HORIZONTLY ---- \nWord is :"+word+"\n")
-        f = open('board.txt','w')
+        f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
                 if i==row-1 and j >= col-1 and j<col-1+len(word):
@@ -326,7 +330,7 @@ def userMove():
         
     if(id==2):
         print(" ---- VERTICALLY---- \nWord is :"+word+"\n")
-        f = open('board.txt','w')
+        f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
                 if j==col-1 and i >= row-1 and i<row-1+len(word):
@@ -346,6 +350,9 @@ def changeRack(which):
             cRack += random.choice(['A','E','I','O','U'])
         for i in range(2,7):
             cRack += random.choice(string.ascii_uppercase)
+        f = open('./BackPyScripts/rack.txt','w')
+        f.write(cRack)
+        f.close()
     else:
         global userRack
         userRack = ""
@@ -359,25 +366,25 @@ def passUser():
     passcnt = 1
 
 if __name__ == "__main__":
-    f = open('username.txt','r')
+    # print(os.path.abspath(__file__))
+    f = open('./BackPyScripts/username.txt','r')
     userName = f.read()
     f.close()
     global cscore
-    f = open('pcscore.txt','r')
+    f = open('./BackPyScripts/pcscore.txt','r')
     cscore = int(f.read())
     f.close()
     global userScore
-    f = open('userscore.txt','r')
+    f = open('./BackPyScripts/userscore.txt','r')
     userScore = int(f.read())
     f.close()
     global cRack
-    f = open('rack.txt')
+    f = open('./BackPyScripts/rack.txt')
     cRack = f.read()
     f.close()
     global userRack
-    f = open('userrack.txt')
+    f = open('./BackPyScripts/userrack.txt')
     userRack = f.read()
     f.close()
     move()
     changeRack(0)
-    changeRack(1)

@@ -11,10 +11,32 @@ class Header extends React.Component{
         this.state={
             playerScore: 0,
             PCScore: 0,
-            PCRack: "ASJASJK",
-            playerRack: "erdseds"
+            PCRack: "",
+            playerRack: ""
         };
         
+        this.setState(
+            {
+                playerScore:this.props.playerScore,
+                PCScore:this.props.PCScore,
+                PCRack:this.props.PCRack,
+                playerRack:this.props.playerRack
+            }
+        );
+
+    }
+
+    componentWillReceiveProps(nextProps)
+    {
+        console.log('props',nextProps);
+        this.setState(
+            {
+                playerScore:nextProps.playerScore,
+                PCScore:nextProps.PCScore,
+                PCRack:nextProps.PCRack,
+                playerRack:nextProps.playerRack
+            }
+        );
     }
 
     componentDidMount()
@@ -77,11 +99,11 @@ class Header extends React.Component{
                             </span>
                         </h5>
                     </div>
-                    <div className="middle-one">
+                    {/* <div className="middle-one">
                         <h2 className="text-danger">
                             LOG
                         </h2>
-                    </div>
+                    </div> */}
                 </div>
             </header>
             </div>
