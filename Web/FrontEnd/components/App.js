@@ -17,15 +17,31 @@ class App extends React.Component{
             PCRack: "ASJASJK",
             playerRack: "erdseds",
             board: "",
+            iserr: false,
+            err:""
         };
 
         this.onChangeRack = this.onChangeRack.bind(this);
         this.onPass = this.onPass.bind(this);
         this.onQuit = this.onQuit.bind(this);
-
-
+        this.putWord = this.putWord.bind(this);
+        this.onFirst = this.onFirst.bind(this);
     }
 
+    onFirst(){
+        axios.get('gameonbitch')
+        .then((response) => this.setState(
+            {
+               playerRack:response.data.playerRack,
+               PCRack:response.data.PCRack,
+               playerScore:response.data.playerScore,
+               PCScore:response.data.PCScore,
+               board:response.data.board
+           }
+           ));
+           
+    this.setState({iserr:false,err:''});
+    }
     
     
     onChangeRack(){
@@ -35,9 +51,11 @@ class App extends React.Component{
                         playerRack:response.data.playerRack,
                         PCRack:response.data.PCRack,
                         playerScore:response.data.playerScore,
-                        PCScore:response.data.PCScore
+                        PCScore:response.data.PCScore,
+                        board:response.data.board
                     }
-                    ));
+                ));
+                    this.setState({iserr:false,err:''});
     }
     onPass(){
             axios.get('gameonbitch')
@@ -49,8 +67,12 @@ class App extends React.Component{
                    PCScore:response.data.PCScore,
                    board:response.data.board
                }
-        ));
+               ));
+               
+        this.setState({iserr:false,err:''});
+        
     }
+
     onQuit(){
         axios.get('exit')
             .then((response) => this.setState(
@@ -62,6 +84,46 @@ class App extends React.Component{
                    board:response.data.board
                }
             ));
+            this.setState({iserr:false,err:''});
+            this.onFirst();
+    }
+
+    putWord(data)
+    {
+        console.log(data);
+        if(data.col=="" || data.row=="")
+        {
+            console.log('hmmm');
+            this.setState({iserr:true,err:'Please select starting pos...'})
+            return;
+        }
+
+        axios({
+            method: 'post',
+            url: 'myturn',
+            data: data,
+            config: { headers: {'Content-Type': 'multipart/form-data' }}
+            })
+            .then(
+                (response) => this.setState(
+                    {
+                       playerRack:response.data.playerRack,
+                       PCRack:response.data.PCRack,
+                       playerScore:response.data.playerScore,
+                       PCScore:response.data.PCScore,
+                       board:response.data.board,
+                       iserr:response.data.iserr,
+                       err:response.data.err
+                   }
+                )        
+            )
+            .catch(function (response) {
+                //handle error
+                this.setState({iserr:true,err:'Cannot connect to server...'})
+                console.log(response);
+        });
+
+
     }
     
     render(){
@@ -79,6 +141,10 @@ class App extends React.Component{
                 onPass = {this.onPass}
                 onQuit = {this.onQuit}
                 board = {this.state.board}
+                iserr = {this.state.iserr}
+                putWord = {this.putWord}
+                err = {this.state.err}
+                onFirst = {this.onFirst}
             />
             </div>
             <hr/>

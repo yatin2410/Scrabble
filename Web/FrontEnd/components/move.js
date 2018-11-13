@@ -9,7 +9,11 @@ class Move extends React.Component{
         super(props);
         this.state = {
             row: "",
-            col: ""
+            col: "",
+            err:"Please enter proper word...",
+            iserr: false,
+            word: "",
+            hor: true
         }
         if(this.props.startingPos!=null)
         {
@@ -19,10 +23,28 @@ class Move extends React.Component{
 
     componentWillReceiveProps(nextprops)
     {
+
         if(nextprops.startingPos!=null)
         {
-            this.setState({row:nextprops.startingPos.row,col:nextprops.startingPos.col});
+            this.setState({row:nextprops.startingPos.row,col:nextprops.startingPos.col});    
+            
         }
+        if(nextprops.iserr!=null)
+        {
+            this.setState({iserr:nextprops.iserr,err:nextprops.err});
+        }
+    }
+
+    changeInput(eve)
+    {
+        this.setState({word:eve.target.value});
+    }
+
+    changeHV(eve)
+    {
+        this.setState({hor:!this.state.hor},function(){
+            console.log(this.state.hor);
+        });
     }
 
     render(){
@@ -31,10 +53,17 @@ class Move extends React.Component{
                 <form className="form">
                     <div className="form-group">
                         <label>Starting Position: {this.state.row} {this.state.col} </label>
-                        <input type="text" className="form-control" placeholder="enter word" />
-                        <small class="form-text text-muted">Please enter proper word...</small>
+                        <input type="text" id="name_input" list="huge_list" className="form-control sldr1" placeholder="enter word" onChange={this.changeInput.bind(this)}/>
+                        <datalist id="huge_list">
+                        </datalist>
+                        <small style={{visibility:this.state.iserr ? 'visible' : 'hidden'}} class="form-text text-danger sldr2">{this.state.err}</small>
+                        <label class="switch">
+                            <input type="checkbox" id="togBtn" onChange={this.changeHV.bind(this)} />
+                            <div class="slider round">
+                            </div>
+                        </label>
                     </div>
-                    <button type="button" className="btn btn-primary btn-lg">
+                    <button onClick={this.props.putWord.bind(this,this.state)}  type="button" className="btn btn-primary btn-lg">
                         Place Word
                     </button> 
                 </form>

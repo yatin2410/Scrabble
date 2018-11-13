@@ -12,7 +12,7 @@ class Game extends React.Component{
         super(props);
     
         this.state = {
-            values:Array(256).fill(""),
+            values:Array(257).fill(""),
             str1: "",
             tdata: null
         };
@@ -36,23 +36,30 @@ class Game extends React.Component{
                 tmp[(i-1)*17-(i-2)] = i-1;
             
             console.log(response.data.length);
+            var cnt = 0;
             for(var i=0;i<15;i++)
             {
                 for(var j=0;j<15;j++)
                 {
                     //console.log(i,j,this.state.str1[(i)*15+j]);
                     tmp[(i+1)*16+j+2]=this.state.str1[(i)*15+(j)];
+                    if(tmp[(i+1)*16+j+2]!="#")
+                        cnt++;
                 }
             }
-
             this.setState({values:tmp});
+
+            if(cnt == 0)
+            {
+                this.props.onFirst();
+            }
 
         });
     }
 
     componentWillReceiveProps(nextprops)
     {
-        if(nextprops.board!="")
+        if(nextprops.board!="" && nextprops.board!=undefined)
         {
             this.setState({str1:(nextprops.board)},()=>{
                 
@@ -83,6 +90,10 @@ class Game extends React.Component{
             
             });        
         }
+        else
+        {
+            
+        }
     }
 
 
@@ -105,6 +116,9 @@ class Game extends React.Component{
                     onPass = {this.props.onPass}
                     onQuit = {this.props.onQuit}
                     startingPos = {this.state.tdata}
+                    putWord = {this.props.putWord}
+                    iserr = {this.props.iserr}
+                    err = {this.props.err}
                 />
             </div>
         );

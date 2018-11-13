@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 import path from 'path';
+import { stat } from 'fs';
 var fs = require('fs');
 /* GET home page. */
 router.get('/', ensureAuth, function (req, res) {
@@ -89,6 +90,57 @@ function renderAll(res){
 }
 
 
+function renderWithErr(res){
+    var state={
+        playerScore: 0,
+        PCScore: 0,
+        PCRack: "",
+        playerRack: "",
+        board:"",
+        iserr:true,
+        err: 'not valid!!!'
+        
+    };
+    fs.readFile('./BackPyScripts/rack.txt',function(err,data)
+    {
+        state.PCRack = data.toString();
+        fs.readFile('./BackPyScripts/userrack.txt',function(err,data)
+        {
+            state.playerRack = data.toString();
+            fs.readFile('./BackPyScripts/pcscore.txt',function(err,data)
+            {
+                console.log('pcscore',data.toString());
+                state.PCScore = data.toString();
+                fs.readFile('./BackPyScripts/userscore.txt',function(err,data)
+                {
+                    state.playerScore = data.toString();
+                    fs.readFile('./BackPyScripts/board.txt',function(err,data){
+                    
+                        console.log(data);
+                        data = data.toString('ascii');
+                        console.log(data);
+                        for(var i=0;i<data.length;i++)
+                        {
+                            data = data.replace(/(\r\n|\n|\r)/gm,"");
+                        }
+                        
+                        state.board = data;
+                        console.log(state);
+                        res.send(state);
+                    
+                    });
+                    
+                });
+            
+            });
+
+        });
+    
+    });
+
+}
+
+
 router.get('/rackandscore',ensureAuth, function(req,res){
     renderHeader(res);
 });
@@ -119,11 +171,24 @@ router.get('/changerack',ensureAuth,function(req,res){
     fs.writeFile('./BackPyScripts/userrack.txt',str,function(err){
         if(err)
             res.send('error');
-            renderHeader(res);
+            
+            const { spawn } = require('child_process');
+            const pyprog = spawn('python', ['./BackPyScripts/main.py']);
+
+            pyprog.stdout.on('data', function(data) {
+                console.log(data.toString());
+                renderAll(res);
+            });
+
+            pyprog.stderr.on('data', (data) => {
+                res.send('err');
+                console.log(data.toString());
+            });
+
      });
 });
 
-router.get('/gameonbitch',function(req,res){
+router.get('/gameonbitch',ensureAuth,function(req,res){
     const { spawn } = require('child_process');
     const pyprog = spawn('python', ['./BackPyScripts/main.py']);
 
@@ -160,10 +225,42 @@ function startNew(res){
 
 }
 
-router.get('/exit',function(req,res){
+router.get('/exit',ensureAuth,function(req,res){
     startNew(res);
 });
 
+router.post('/myturn',ensureAuth, function(req,res){
+    console.log(req.body);
+    const { spawn } = require('child_process');
+    const pyprog = spawn('python', ['./BackPyScripts/main1.py',req.body.word,req.body.row,req.body.col,req.body.hor]);
+
+    pyprog.stdout.on('data', function(data) {
+
+            const pypro = spawn('python', ['./BackPyScripts/main.py']);
+
+            pypro.stdout.on('data', function(data) {
+                console.log(data.toString());
+                renderAll(res);
+            });
+
+            pypro.stderr.on('data', (data) => {
+                res.send('err');
+                console.log(data.toString());
+            });
+        
+    });
+
+    pyprog.stderr.on('data', (data) => {
+        console.log(data.toString());
+        renderWithErr(res);
+    });
+
+});
+
+
+router.get('/search',function(req,res){
+    
+});
 
 function ensureAuth(req,res,next) {
     if (req.isAuthenticated()) {
