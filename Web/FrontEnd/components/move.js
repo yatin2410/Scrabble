@@ -79,7 +79,7 @@ class Move extends React.Component{
                     </div>
                     <div className="btn1">
                     <button onClick={this.props.onQuit} type="button" className="btn btn-danger btn-lg">
-                            Quit
+                            New Game
                     </button>
                     </div>
             </div>

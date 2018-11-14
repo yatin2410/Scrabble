@@ -21,6 +21,10 @@ var UserSchema = mongoose.Schema({
         type: String
     },
 
+    pass:{
+        type: String
+    },
+
     savefiles: [{
         type: String
     }],

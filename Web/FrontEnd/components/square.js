@@ -20,6 +20,17 @@ class Square extends  React.Component{
         if(!isLetter(this.state.value))
             {
                 this.setState({classname:"sqr"});
+                var tmp = "";
+                if(this.state.value == "5")
+                    tmp = "TW";
+                if(this.state.value == "4")
+                tmp = "DW";
+                if(this.state.value == "3")
+                tmp = "TL";
+                if(this.state.value == "2")
+                tmp = "DL";
+                this.setState({value:tmp});
+                
         }
         this.setState({row:this.props.row,col:this.props.col});
 
@@ -32,7 +43,17 @@ class Square extends  React.Component{
                 
                     if(!isLetter(this.state.value) && (nextprops.row!=0 && nextprops.col!=0))
                     {
-                    this.setState({classname:"sqr"});
+                        this.setState({classname:"sqr"});
+                        var tmp = "";
+                        if(this.state.value == "5")
+                            tmp = "TW";
+                        if(this.state.value == "4")
+                        tmp = "DW";
+                        if(this.state.value == "3")
+                        tmp = "TL";
+                        if(this.state.value == "2")
+                        tmp = "DL";
+                        this.setState({value:tmp});
                     }
                     else
                         this.setState({classname:"square"});

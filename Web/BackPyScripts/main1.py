@@ -11,6 +11,16 @@ def getboard():
     f.close()
     global boardArray
     boardArray = stringboard.split('\n')
+    global boardArrayPrev
+    boardArrayPrev = boardArray
+
+def getboard1():
+    f =open('./BackPyScripts/board.txt','r')
+    stringboard = f.read()
+    f.close()
+    global boardArray
+    boardArray = stringboard.split('\n')
+
 
 def getboardCopy():
     f =open('./BackPyScripts/board.txt','r')
@@ -30,6 +40,10 @@ def getboardValue():
 
 def getrack():
     f=open('./BackPyScripts/rack.txt','r')
+    global mainRack
+    g = open('./BackPyScripts/MainRack.txt','r')
+    mainRack = str(g.read())
+    g.close()
     global stringRack2
     stringRack2 = f.read()
     global rackValues
@@ -141,10 +155,36 @@ def findPlace(id):
                         checkWord("",i-1,x,j,stringRack2,id)
                     
 
+def crossValue(row,col,id):        
+    cost = 0
+    if id == 1:
+        k = row+1
+        row-=1
+        while row>=0 and boardArray[row][col] != '#':
+            cost = cost + rackValues[boardArray[row][col]]
+            row-=1
+
+        while k<15 and boardArray[k][col] != '#':
+            cost =  cost + rackValues[boardArray[k][col]] 
+            k+=1
+
+    if id == 2:
+        k = col+1
+        col-=1
+        while col>=0 and boardArray[row][col] != '#':
+            cost = cost + rackValues[boardArray[row][col]]
+            col-=1
+
+        while k<15 and boardArray[row][k] != '#':
+            cost =  cost + rackValues[boardArray[row][k]] 
+            k+=1
+    return cost                    
+
 def costFunc(strr,i,j,id):
     cost = 0
     dw = 0
     tw = 0
+    cw = 0
     if id == 1:
         for col in range(j,j+len(strr)):
             if boardValue[i][col] == "1" or boardValue[i][col] == "2" or boardValue[i][col] == "3" :
@@ -155,9 +195,10 @@ def costFunc(strr,i,j,id):
                 dw+=1
             if boardValue[i][col] == "5":
                 tw+=1
-
+            cw = cw + crossValue(i,col,id)
         cost = cost * (2 ** dw)
         cost = cost * (3 ** tw)
+        cost = cost + cw
 
     if id == 2:
         for row in range(i,i+len(strr)):
@@ -169,9 +210,11 @@ def costFunc(strr,i,j,id):
                 dw+=1
             if boardValue[row][j] == 5:
                 tw+=1
+            cw = cw + crossValue(row,j,id)
 
         cost = cost * (2 ** dw)
         cost = cost * (3 ** tw)
+        cost = cost + cw
 
     return cost
 
@@ -345,9 +388,9 @@ def userMove():
     f = open('./BackPyScripts/userscore.txt','r')
     userScore = int(f.read())
     f.close()
-    print(userScore)
+    # print(userScore)
     userScore += costFunc(word,row-1,col-1,id)
-    print(userScore)
+    # print(userScore)
     f = open('./BackPyScripts/userscore.txt','w')
     f.write(str(userScore))
     f.close()
@@ -379,30 +422,45 @@ def userMove():
                 f.write('\n')
 
 
+def changeMainRack():
+    global boardArray
+    global boardArrayPrev
+    global diffStr
+    diffStr = ""
+    for i,strr in enumerate(boardArray):
+        for j,char in enumerate(strr):
+        	# print(boardArray[i][j],boardArrayPrev[i][j])
+        	if boardArray[i][j] != boardArrayPrev[i][j]:
+        		diffStr += boardArray[i][j]
+
 
 def changeRack(which):
-    print(which)
-    if which%2==0:
-        global cRack
-        cRack = ""
-        for i in range(0,2):
-            cRack += random.choice(['A','E','I','O','U'])
-        for i in range(2,7):
-            cRack += random.choice(string.ascii_uppercase)
-        f = open('./BackPyScripts/rack.txt','w')
-        f.write(cRack)
-        f.close()
-    else:
-        global userRack
-        userRack = ""
-        for i in range(0,2):
-            userRack += random.choice(['A','E','I','O','U'])
-        for i in range(2,7):
-            userRack += random.choice(string.ascii_uppercase)
-        print(userRack)
-        f = open('./BackPyScripts/userrack.txt','w')
-        f.write(userRack)
-        f.close()
+    global cRack
+    global userRack
+    cRack = userRack
+    global diffStr
+    getboard1()
+    changeMainRack()
+    global mainRack
+    ds = ""
+    for i,ch in enumerate(diffStr):
+        cRack = cRack.replace(ch,"",1)
+    for i in range(len(cRack),7):
+        dd = random.choice(mainRack)
+        mainRack = mainRack.replace(dd,"",1)
+        ds = ds + dd
+    # print(diffStr)
+    # print(ds)
+    # print(mainRack)
+    # print(cRack)
+    cRack = cRack + ds
+    f = open('./BackPyScripts/MainRack.txt','w')
+    f.write(mainRack)
+    f.close()
+    f = open('./BackPyScripts/userrack.txt','w')
+    f.write(cRack)
+    f.close()
+
 
 
 def passUser():
@@ -411,6 +469,8 @@ def passUser():
 
 if __name__ == "__main__":
     # print(os.path.abspath(__file__))
+    getboard()
+    getrack()
     f = open('./BackPyScripts/username.txt','r')
     userName = f.read()
     f.close()

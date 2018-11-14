@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 import path from 'path';
 import { stat } from 'fs';
+import { func } from 'prop-types';
 var fs = require('fs');
 /* GET home page. */
 router.get('/', ensureAuth, function (req, res) {
@@ -160,32 +161,48 @@ router.get('/board',ensureAuth, function(req,res){
 });
 
 router.get('/changerack',ensureAuth,function(req,res){
+  
+    fs.readFile('./BackPyScripts/userrack.txt',function(err,data){
+        var rack = data.toString();
+        fs.readFile('./BackPyScripts/MainRack.txt',function(err,data){
+            var strr = data.toString();
+                strr = strr + rack;
+                rack = "";
+                if(strr.length<7)
+                {
+                    res.send({error:"ENDING"});
+                }else{
+                for (var i=0;i<7;i++)
+                {
+                    var c = strr.charAt(Math.floor(Math.random()*strr.length));
+                    strr.replace(c,"");
+                    rack += c;
+                }
+                fs.writeFile('./BackPyScripts/MainRack.txt',strr,function(err){
+                        
+                fs.writeFile('./BackPyScripts/userrack.txt',rack,function(err){
+                    if(err)
+                        res.send('error');
+                        
+                        const { spawn } = require('child_process');
+                        const pyprog = spawn('python', ['./BackPyScripts/main.py']);
 
-    var str = "";
-    var str1 = "AEIOU";
-    var str2 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for (var i=0;i<2;i++)
-            str += str1.charAt(Math.floor(Math.random()*str1.length));
-        for(var i=2;i<7;i++)
-            str += str2.charAt(Math.floor(Math.random()*str2.length));
-    fs.writeFile('./BackPyScripts/userrack.txt',str,function(err){
-        if(err)
-            res.send('error');
-            
-            const { spawn } = require('child_process');
-            const pyprog = spawn('python', ['./BackPyScripts/main.py']);
+                        pyprog.stdout.on('data', function(data) {
+                            console.log(data.toString());
+                            renderAll(res);
+                        });
 
-            pyprog.stdout.on('data', function(data) {
-                console.log(data.toString());
-                renderAll(res);
-            });
+                        pyprog.stderr.on('data', (data) => {
+                            res.send('err');
+                            console.log(data.toString());
+                        });
 
-            pyprog.stderr.on('data', (data) => {
-                res.send('err');
-                console.log(data.toString());
-            });
+                });
 
-     });
+                });
+            }
+        });
+    });
 });
 
 router.get('/gameonbitch',ensureAuth,function(req,res){
@@ -218,7 +235,37 @@ function startNew(res){
                     str += "\r\n";
             }
             fs.writeFile('./BackPyScripts/board.txt',str,function(err){
-                renderAll(res);
+               var strr = "";
+                fs.readFile('./BackPyScripts/InitRack.txt',function(err,data){
+                    strr = data.toString();
+                    fs.writeFile('./BackPyScripts/MainRack.txt',strr,function(err){
+                        
+                    fs.readFile('./BackPyScripts/userrack.txt',function(err,data){
+                        var rack = data.toString();
+                        fs.readFile('./BackPyScripts/MainRack.txt',function(err,data){
+                            var strr = data.toString();
+                                for (var i=0;i<7;i++)
+                                {
+                                    var c = rack.charAt(i);
+                                    strr.replace(c,"");
+                                }
+                                fs.writeFile('./BackPyScripts/MainRack.txt',strr,function(err){
+                                        
+                                fs.writeFile('./BackPyScripts/userrack.txt',rack,function(err){
+                                    fs.writeFile('./BackPyScripts/rack.txt',"",function(err){
+                                        
+                                    renderAll(res);
+                                    });
+                                });
+
+                            });
+
+                        });
+
+                    });
+
+                 });
+                });
             });
         });
      });

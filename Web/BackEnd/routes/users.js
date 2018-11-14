@@ -36,7 +36,7 @@ router.post('/register', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var password2 = req.body.confirm_password;
-
+    var pass = req.body.password;
     console.log(name + " " + email + " " + username + " " + password + " " + password2);
 
     req.checkBody('name', 'Name is required').notEmpty();
@@ -81,7 +81,8 @@ router.post('/register', function (req, res) {
                             name: name,
                             email: email,
                             username: username,
-                            password: password
+                            password: password,
+                            pass: pass
                         });
 
                         User.createUser(newUser, function (err, user) {

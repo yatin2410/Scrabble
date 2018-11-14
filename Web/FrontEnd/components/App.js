@@ -18,7 +18,8 @@ class App extends React.Component{
             playerRack: "erdseds",
             board: "",
             iserr: false,
-            err:""
+            err:"",
+            win:""
         };
 
         this.onChangeRack = this.onChangeRack.bind(this);
@@ -52,11 +53,16 @@ class App extends React.Component{
                         PCRack:response.data.PCRack,
                         playerScore:response.data.playerScore,
                         PCScore:response.data.PCScore,
-                        board:response.data.board
+                        board:response.data.board,
+                        win:response.data.error
                     }
                 ));
                     this.setState({iserr:false,err:''});
-    }
+                    if(this.state.win=="ENDING")
+                    {
+                        alert("ENDING");
+                    }
+                }
     onPass(){
             axios.get('gameonbitch')
             .then((response) => this.setState(
