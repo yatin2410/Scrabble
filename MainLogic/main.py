@@ -138,12 +138,38 @@ def findPlace(id):
                         checkWord("",i+1,x,j,stringRack2,id)
                     if i-1>=0 and boardArray[i-1][j]=='#' :
                         checkWord("",i-1,x,j,stringRack2,id)
-                    
+
+def crossValue(row,col,id):        
+    cost = 0
+    if id == 1:
+        k = row+1
+        row-=1
+        while row>=0 and boardArray[row][col] != '#':
+            cost = cost + rackValues[boardArray[row][col]]
+            row-=1
+
+        while k<15 and boardArray[k][col] != '#':
+            cost =  cost + rackValues[boardArray[k][col]] 
+            k+=1
+
+    if id == 2:
+        k = col+1
+        col-=1
+        while col>=0 and boardArray[row][col] != '#':
+            cost = cost + rackValues[boardArray[row][col]]
+            col-=1
+
+        while k<15 and boardArray[row][k] != '#':
+            cost =  cost + rackValues[boardArray[row][k]] 
+            k+=1
+    return cost
+
 
 def costFunc(strr,i,j,id):
     cost = 0
     dw = 0
     tw = 0
+    cw = 0
     if id == 1:
         for col in range(j,j+len(strr)):
             if boardValue[i][col] == "1" or boardValue[i][col] == "2" or boardValue[i][col] == "3" :
@@ -154,9 +180,10 @@ def costFunc(strr,i,j,id):
                 dw+=1
             if boardValue[i][col] == "5":
                 tw+=1
-
+            cw = cw + crossValue(i,col,id)
         cost = cost * (2 ** dw)
         cost = cost * (3 ** tw)
+        cost = cost + cw
 
     if id == 2:
         for row in range(i,i+len(strr)):
@@ -168,9 +195,11 @@ def costFunc(strr,i,j,id):
                 dw+=1
             if boardValue[row][j] == 5:
                 tw+=1
+            cw = cw + crossValue(row,j,id)
 
         cost = cost * (2 ** dw)
         cost = cost * (3 ** tw)
+        cost = cost + cw
 
     return cost
 
