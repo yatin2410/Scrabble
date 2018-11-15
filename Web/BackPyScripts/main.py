@@ -249,17 +249,17 @@ def move():
     if ansIndex == -1:
         global passcnt 
         if passcnt == 1:
-            print("END GAME")
+            #print("END GAME")
             exit(0)
         else:
-            print("Changing Rack ")
-            # changeRack(0)
+            #print("Changing Rack ")
+             changeRack(0)
         return
 
     getboardCopy()
     
     if(possStart[ansIndex][2]==1):
-        print(" ---- HORIZONTLY ---- ")
+        #print(" ---- HORIZONTLY ---- ")
         f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
@@ -271,7 +271,7 @@ def move():
                 f.write('\n')
 
     if(possStart[ansIndex][2]==2):
-        print(" ---- VERTICALLY---- ")
+        #print(" ---- VERTICALLY---- ")
         f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
@@ -284,11 +284,11 @@ def move():
     
     global finalWord
     finalWord = possArray[ansIndex]
-    print("Best Posible String is " + possArray[ansIndex] + ". Starting is at row "+ str(possStart[ansIndex][0]+1)+" and col at " + str(possStart[ansIndex][1]+1)+" and point is "+str(mx))
+    #print("Best Posible String is " + possArray[ansIndex] + ". Starting is at row "+ str(possStart[ansIndex][0]+1)+" and col at " + str(possStart[ansIndex][1]+1)+" and point is "+str(mx))
     
     global cscore 
     cscore += mx
-    print(cscore)
+    #print(cscore)
     f = open('./BackPyScripts/pcscore.txt','w')
     f.write(str(cscore))
     f.close()
@@ -301,12 +301,12 @@ def userMove():
     d = input("Enter 1 for horizontal word\nEnter 2 for vertical word\n>")
     id = int(d)
     if id != 1 and id != 2:
-        print("select proper choice\n")
+        #print("select proper choice\n")
         return False
     word = input('enter your word\n>')
     word = word.upper()
     if not word in completion_dawg:
-        print("Word does not exist\n")
+        #print("Word does not exist\n")
         return False
     ro = input('Enter row of your word starting point\n>')
     co = input('Enter column of your word starting point\n>')
@@ -321,16 +321,16 @@ def userMove():
     if id ==1:
         for i in range(0,len(word)-1):
             if not crossCheck(word[i],x,y+i):
-                print("Cross Check is not valid\n")
+                #print("Cross Check is not valid\n")
                 return False
 
             j = userRack.find(word[i])
             if boardArray[x][y+i]!='#' and boardArray[x][y+i] != word[i]:
-                print("Wrong Placed word entered \n")
+                #print("Wrong Placed word entered \n")
                 return False
             elif boardArray[x][y+i]=='#':
                 if j == -1:
-                    print("letter "+word[i]+" does not exist in rack \n")
+                    #print("letter "+word[i]+" does not exist in rack \n")
                     return False
                 elif j!=-1:
                     userRack = userRack[0:j] + userRack[j+1:]
@@ -339,18 +339,18 @@ def userMove():
         boardArray = [*zip(*boardArray)]
         for i in range(0,len(word)-1):
             if not crossCheck(word[i],y,x+i):
-                print("Cross Check is not valid\n")
+                #print("Cross Check is not valid\n")
                 return False
 
         boardArray = [*zip(*boardArray)]
         for i in range(0,len(word)-1):    
             j = userRack.find(word[i])
             if boardArray[x+i][y]!='#' and boardArray[x+i][y] != word[i]:
-                print("Wrong Placed word entered \n")
+                #print("Wrong Placed word entered \n")
                 return False
             elif boardArray[x+i][y]=='#':
                 if j == -1:
-                    print("letter "+word[i]+" does not exist in rack \n")
+                    #print("letter "+word[i]+" does not exist in rack \n")
                     return False
                 elif j!=-1:
                     userRack = userRack[0:j] + userRack[j+1:]
@@ -361,7 +361,7 @@ def userMove():
     getboardCopy()
     
     if(id==1):
-        print(" ---- HORIZONTLY ---- \nWord is :"+word+"\n")
+        #print(" ---- HORIZONTLY ---- \nWord is :"+word+"\n")
         f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
@@ -373,7 +373,7 @@ def userMove():
                 f.write('\n')
         
     if(id==2):
-        print(" ---- VERTICALLY---- \nWord is :"+word+"\n")
+        #print(" ---- VERTICALLY---- \nWord is :"+word+"\n")
         f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
@@ -392,7 +392,7 @@ def changeMainRack():
     diffStr = ""
     for i,strr in enumerate(boardArray):
         for j,char in enumerate(strr):
-        	# print(boardArray[i][j],boardArrayPrev[i][j])
+        	# #print(boardArray[i][j],boardArrayPrev[i][j])
         	if boardArray[i][j] != boardArrayPrev[i][j]:
         		diffStr += boardArray[i][j]
 
@@ -404,6 +404,10 @@ def changeRack(which):
         getboard1()
         changeMainRack()
         global mainRack
+        global flag 
+        if mainRack=="":
+            flag = True
+            return
         ds = ""
         for i,ch in enumerate(diffStr):
             cRack = cRack.replace(ch,"",1)
@@ -436,6 +440,10 @@ def passUser():
 
 if __name__ == "__main__":
     # print(os.path.abspath(__file__))
+    global flag 
+    flag = False
+    global passcnt
+    passcnt = 0
     getboard()
     getrack()
     f = open('./BackPyScripts/username.txt','r')
@@ -458,5 +466,9 @@ if __name__ == "__main__":
     userRack = f.read()
     f.close()
     changeRack(0)
+    if flag == True:
+        print("ERROR")
+        exit(0)
     move()
     changeRack(0)
+    print("DONE")

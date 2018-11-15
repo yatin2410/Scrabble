@@ -175,7 +175,7 @@ router.get('/changerack',ensureAuth,function(req,res){
                 for (var i=0;i<7;i++)
                 {
                     var c = strr.charAt(Math.floor(Math.random()*strr.length));
-                    strr.replace(c,"");
+                    strr = strr.replace(c,"");
                     rack += c;
                 }
                 fs.writeFile('./BackPyScripts/MainRack.txt',strr,function(err){
@@ -189,7 +189,15 @@ router.get('/changerack',ensureAuth,function(req,res){
 
                         pyprog.stdout.on('data', function(data) {
                             console.log(data.toString());
-                            renderAll(res);
+                            var yy = data.toString();
+                            if(yy.length==6){
+                                console.log(yy);
+                                renderAll(res);
+                            }
+                            else{
+                                console.log(yy.length);
+                            res.send('err');
+                            }
                         });
 
                         pyprog.stderr.on('data', (data) => {
@@ -210,8 +218,16 @@ router.get('/gameonbitch',ensureAuth,function(req,res){
     const pyprog = spawn('python', ['./BackPyScripts/main.py']);
 
     pyprog.stdout.on('data', function(data) {
-        console.log(data.toString());
-        renderAll(res);
+        console.log(data.toString().length);
+        var yy = data.toString();
+        if(yy.length==6){
+            console.log(yy);
+            renderAll(res);
+        }
+        else{
+            console.log(yy.length);
+        res.send('err');
+        }
     });
 
     pyprog.stderr.on('data', (data) => {

@@ -27,7 +27,10 @@ class Move extends React.Component{
         if(nextprops.startingPos!=null)
         {
             this.setState({row:nextprops.startingPos.row,col:nextprops.startingPos.col});    
-            
+        }
+        if(nextprops.startingPos==null)
+        {
+            this.setState({row:"",col:""});
         }
         if(nextprops.iserr!=null)
         {

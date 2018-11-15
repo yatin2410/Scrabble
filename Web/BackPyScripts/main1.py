@@ -251,17 +251,17 @@ def move():
     if ansIndex == -1:
         global passcnt 
         if passcnt == 1:
-            print("END GAME")
+            #print("END GAME")
             exit(0)
         else:
-            print("Changing Rack ")
+            #print("Changing Rack ")
             changeRack(0)
         return
 
     getboardCopy()
     
     if(possStart[ansIndex][2]==1):
-        print(" ---- HORIZONTLY ---- ")
+        #print(" ---- HORIZONTLY ---- ")
         f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
@@ -273,7 +273,7 @@ def move():
                 f.write('\n')
 
     if(possStart[ansIndex][2]==2):
-        print(" ---- VERTICALLY---- ")
+        #print(" ---- VERTICALLY---- ")
         f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
@@ -284,11 +284,11 @@ def move():
             if i != len(boardCopy)-1: 
                 f.write('\n')
 
-    print("Best Posible String is " + possArray[ansIndex] + ". Starting is at row "+ str(possStart[ansIndex][0]+1)+" and col at " + str(possStart[ansIndex][1]+1)+" and point is "+str(mx))
+    #print("Best Posible String is " + possArray[ansIndex] + ". Starting is at row "+ str(possStart[ansIndex][0]+1)+" and col at " + str(possStart[ansIndex][1]+1)+" and point is "+str(mx))
     
     global cscore 
     cscore += mx
-    print(cscore)
+    #print(cscore)
     f = open('./BackPyScripts/pcscore.txt','w')
     f.write(str(cscore))
     f.close()
@@ -398,7 +398,7 @@ def userMove():
     getboardCopy()
     
     if(id==1):
-        print(" ---- HORIZONTLY ---- \nWord is :"+word+"\n")
+        #print(" ---- HORIZONTLY ---- \nWord is :"+word+"\n")
         f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
@@ -410,7 +410,7 @@ def userMove():
                 f.write('\n')
         
     if(id==2):
-        print(" ---- VERTICALLY---- \nWord is :"+word+"\n")
+        #print(" ---- VERTICALLY---- \nWord is :"+word+"\n")
         f = open('./BackPyScripts/board.txt','w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
@@ -492,3 +492,4 @@ if __name__ == "__main__":
     f.close()
     userMove()
     changeRack(1)
+    print("DONE")

@@ -37,7 +37,8 @@ class App extends React.Component{
                PCRack:response.data.PCRack,
                playerScore:response.data.playerScore,
                PCScore:response.data.PCScore,
-               board:response.data.board
+               board:response.data.board,
+               
            }
            ));
            
@@ -54,10 +55,13 @@ class App extends React.Component{
                         playerScore:response.data.playerScore,
                         PCScore:response.data.PCScore,
                         board:response.data.board,
-                        win:response.data.error
+                        win:response.data.error,
+                        iserr:false,
+                        err:""
                     }
                 ));
                     this.setState({iserr:false,err:''});
+                    console.log(this.state);
                     if(this.state.win=="ENDING")
                     {
                         alert("ENDING");
@@ -71,7 +75,9 @@ class App extends React.Component{
                    PCRack:response.data.PCRack,
                    playerScore:response.data.playerScore,
                    PCScore:response.data.PCScore,
-                   board:response.data.board
+                   board:response.data.board,
+                   iserr:false,
+                   err:""
                }
                ));
                
@@ -87,7 +93,9 @@ class App extends React.Component{
                    PCRack:response.data.PCRack,
                    playerScore:response.data.playerScore,
                    PCScore:response.data.PCScore,
-                   board:response.data.board
+                   board:response.data.board,
+                   iserr:false,
+                   err:""
                }
             ));
             this.setState({iserr:false,err:''});

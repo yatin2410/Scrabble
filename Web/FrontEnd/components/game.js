@@ -89,10 +89,7 @@ class Game extends React.Component{
             this.setState({values:tmp});
             
             });        
-        }
-        else
-        {
-            
+            this.setState({tdata:null});
         }
     }
 

@@ -12,7 +12,8 @@ class Header extends React.Component{
             playerScore: 0,
             PCScore: 0,
             PCRack: "",
-            playerRack: ""
+            playerRack: "",
+            error:"",
         };
         
         this.setState(
@@ -24,23 +25,32 @@ class Header extends React.Component{
             }
         );
 
+        this.getRackScore.bind(this);
+
     }
 
     componentWillReceiveProps(nextProps)
     {
         console.log('props',nextProps);
-        this.setState(
-            {
-                playerScore:nextProps.playerScore,
-                PCScore:nextProps.PCScore,
-                PCRack:nextProps.PCRack,
-                playerRack:nextProps.playerRack
-            }
-        );
+        if(nextProps.playerRack==undefined && nextProps.PCScore==undefined && nextProps.PCRack==undefined && nextProps.playerScore==undefined)
+        {
+            this.setState({error:"Game Ended"});
+            this.getRackScore();
+        }
+        else{
+            this.setState({error:""});
+            this.setState(
+                {
+                    playerScore:nextProps.playerScore,
+                    PCScore:nextProps.PCScore,
+                    PCRack:nextProps.PCRack,
+                    playerRack:nextProps.playerRack
+                }
+            );
+        }
     }
 
-    componentDidMount()
-    {
+    getRackScore(){
         axios.get('/rackandscore')
         .then(response => this.setState({
             playerRack:response.data.playerRack,
@@ -51,7 +61,11 @@ class Header extends React.Component{
         ));
 
         console.log(this.state);
+    }
 
+    componentDidMount()
+    {
+        this.getRackScore();
     }
 
     render(){
@@ -99,11 +113,11 @@ class Header extends React.Component{
                             </span>
                         </h5>
                     </div>
-                    {/* <div className="middle-one">
+                    <div className="middle-one">
                         <h2 className="text-danger">
-                            LOG
+                            {this.state.error}
                         </h2>
-                    </div> */}
+                    </div>
                 </div>
             </header>
             </div>
