@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './header';
-import Game from './Game';
+import Game from './game';
 import './main.css';
 import './bootstrap.css';
 import Play from './play';
