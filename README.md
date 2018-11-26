@@ -4,9 +4,11 @@ Here is the demo [Website](https://www.scbl.tk/).
 
 This Repo is for making Scrabble game. Please See these [PPT](https://drive.google.com/open?id=1_5sNTi9b4LrgvKK2xaYl-PBIJNzqiGW1) for understanding algorithm and working model.
 
+## Running on console
+
 ![](demo.gif)
 
-## Getting Started
+## Getting Started( Main Logic)
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
