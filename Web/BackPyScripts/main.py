@@ -446,9 +446,6 @@ if __name__ == "__main__":
     passcnt = 0
     getboard()
     getrack()
-    f = open('./BackPyScripts/username.txt','r')
-    userName = f.read()
-    f.close()
     global cscore
     f = open('./BackPyScripts/pcscore.txt','r')
     cscore = int(f.read())
@@ -471,4 +468,4 @@ if __name__ == "__main__":
         exit(0)
     move()
     changeRack(0)
-    print("DONE")
+    print("D")

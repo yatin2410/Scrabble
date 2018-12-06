@@ -190,7 +190,7 @@ router.get('/changerack',function(req,res){
                         pyprog.stdout.on('data', function(data) {
                             console.log(data.toString());
                             var yy = data.toString();
-                            if(yy.length==5){
+                            if(yy.length<5){
                                 console.log(yy);
                                 renderAll(res);
                             }
@@ -221,7 +221,7 @@ router.get('/gameonbitch',function(req,res){
 	console.log(data.toString());
         console.log(data.toString().length);
         var yy = data.toString();
-        if(yy.length==5){
+        if(yy.length<5){
             console.log(yy);
             renderAll(res);
         }

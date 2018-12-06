@@ -8,5 +8,30 @@
     <body>
         <div id="app"></div>
         <script src="bundle.js"></script>
+            <!-- Include AlgoliaSearch JS Client and autocomplete.js library -->
+	    <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+	    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.min.js"></script>
+	    <!-- Initialize autocomplete menu -->
+	    <script>
+
+	        var client = algoliasearch('P0W7VOSGTN', '3c4f7458bef5a0ce87b929acbe431227');
+	        var index = client.initIndex('all_WORDS');
+			autocomplete('#name_input',
+			{ hint: false }, {
+				source: autocomplete.sources.hits(index, {hitsPerPage: 5}),
+				//value to be displayed in input control after user's suggestion selection
+				displayKey: 'name',
+				//hash of templates used when rendering dataset
+				templates: {
+					//'suggestion' templating function used to render a single suggestion
+					suggestion: function(suggestion) {
+					return '<span>' +
+						suggestion._highlightResult.name.value + '</span>';
+					}
+				}
+			});
+
+	    </script>
+
     </body>
 </html>
