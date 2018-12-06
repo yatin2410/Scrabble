@@ -106,7 +106,8 @@ class Game extends React.Component{
                     <Board 
                         values={this.state.values}
                         whichPos={this.whichPos.bind(this)}
-                    />           
+                    />
+                    <br/>           
                 </div>
                 <Move 
                     onChangeRack={this.props.onChangeRack}

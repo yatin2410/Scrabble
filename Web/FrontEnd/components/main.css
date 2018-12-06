@@ -1,37 +1,7 @@
-﻿/* Space out content a bit */
-body {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+﻿
+.container{
+    margin-top: 15px;
 }
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-    padding-right: 1rem;
-    padding-left: 1rem;
-}
-
-/* Custom page header */
-.header {
-    padding-bottom: 1rem;
-    border-bottom: .05rem solid #e5e5e5;
-}
-
-    /* Make the masthead heading the same height as the navigation */
-    .header h3 {
-        margin-top: 0;
-        margin-bottom: 0;
-        line-height: 3rem;
-    }
-
-/* Custom page footer */
-.footer {
-    padding-top: 1.5rem;
-    color: #777;
-    border-top: .05rem solid #e5e5e5;
-}
-
 /* Customize container */
 @media (min-width: 48em) {
     .container {
@@ -307,7 +277,7 @@ body {
         background: #fff;
         border: 1px solid #999;
         float: left;
-        font-size: 2.7px;
+        font-size: 2.3vw;
         opacity: 0.5;
         line-height: 5vw;
         height: 5vw;
@@ -395,9 +365,10 @@ body {
 
     .mobi2{
         margin:0 0 0 0;
-        height: 8vw;
-        width: 40vw;
-        font-size: 4vw;
+        height: 11vw;
+        width: 35vw;
+        font-size: 3vw;
+        padding-bottom: 1vm;
     }    
 
     .btn1{
