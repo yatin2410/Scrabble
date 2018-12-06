@@ -52,7 +52,7 @@ class Move extends React.Component{
 
     render(){
         return(
-            <div  className="move">
+            <div className="move">
                 <form className="form">
                     <div className="form-group">
                         <label>Starting Position: {this.state.row} {this.state.col} </label>
@@ -65,26 +65,28 @@ class Move extends React.Component{
                             </div>
                         </label>
                     </div>
-                    <button onClick={this.props.putWord.bind(this,this.state)}  type="button" className="btn btn-primary btn-md">
+                    <button onClick={this.props.putWord.bind(this,this.state)}  type="button" className="btn btn-primary btn-md mobi2">
                         Place Word
                     </button> 
                     <hr/>
                 </form>
+                <div className="others">
                 <div className="btn1">
-                    <button onClick={this.props.onChangeRack} type="button" className="btn btn-info btn-md">
+                    <button onClick={this.props.onChangeRack} type="button" className="btn btn-info btn-md mobi2">
                         Change Rack
                     </button>
                 </div>
                     <div className="btn1">
-                    <button onClick={this.props.onPass} type="button" className="btn btn-warning btn-md">
+                    <button onClick={this.props.onPass} type="button" className="btn btn-warning btn-md mobi2">
                         Pass
                     </button>
                     </div>
                     <hr/>
                     <div className="btn1">
-                    <button onClick={this.props.onQuit} type="button" className="btn btn-danger btn-md">
+                    <button onClick={this.props.onQuit} type="button" className="btn btn-danger btn-md mobi2">
                             New Game
                     </button>
+                    </div>
                     </div>
             </div>
         );

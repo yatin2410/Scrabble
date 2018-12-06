@@ -75,46 +75,46 @@ class Header extends React.Component{
                 <nav>
                     <ul class="nav nav-pills float-right">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Deshboard</a>
+                            <a class="nav-link mobi" href="/">Deshboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/users/logout">LogOut</a>
+                            <a class="nav-link mobi" href="/users/logout">LogOut</a>
                         </li>
                     </ul>
                 </nav>
-                <h3 class="text-muted">Scrabble</h3>
+                <h3 class="text-muted mobi1">Scrabble</h3>
                 <hr/>
                 <div>
                     <div className="left-one">
-                        <h5 className="text-success">
+                        <h5 className="text-success mobi">
                             Your Rack:
-                            <span className="rackscore">
+                            <span className="rackscore mobi">
                             {this.state.playerRack}
                             </span>
                         </h5>
-                        <h5 className="text-success">
+                        <h5 className="text-success mobi">
                             Your Score:
-                            <span className="rackscore">
+                            <span className="rackscore mobi">
                                 {this.state.playerScore}
                             </span>
                         </h5>
                     </div>
                     <div  className="right-one">
-                        <h5 className="text-success">
+                        <h5 className="text-success mobi">
                             PC's Rack:
-                            <span className="rackscore">
+                            <span className="rackscore mobi">
                                 {this.state.PCRack}
                             </span>
                         </h5>
-                        <h5 className="text-success">
+                        <h5 className="text-success mobi">
                             PC's Score:
-                            <span className="rackscore">
+                            <span className="rackscore mobi">
                                 {this.state.PCScore}
                             </span>
                         </h5>
                     </div>
                     <div className="middle-one">
-                        <h2 className="text-danger">
+                        <h2 className="text-danger mobi">
                             {this.state.error}
                         </h2>
                     </div>

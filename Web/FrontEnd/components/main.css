@@ -145,7 +145,7 @@ body {
 
 
 .btn1{
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .rackscore{
@@ -269,3 +269,139 @@ body {
 
 
   /*--------- END --------*/
+
+  
+
+  /*-------Mobile View Begin-----*/
+  @media only screen and (max-width: 800px) {
+    .mobi{
+        font-size: 3.3vw; 
+    }
+    .mobi1{
+        font-size: 3.5vw;
+    }
+    
+    .board
+    {    
+        margin-top: 10px;
+        float: left;
+        margin-left: 10%;
+    }
+
+    .square {
+        background: #fff;
+        border: 1px solid #999;
+        float: left;
+        font-size: 2.7vw;
+        font-weight: bold;
+        line-height: 5vw;
+        height: 5vw;
+        margin-right: -1px;
+        margin-top: -1px;
+        padding: 0;
+        text-align: center;
+        width: 5vw;
+      }
+      
+      .sqr {
+        background: #fff;
+        border: 1px solid #999;
+        float: left;
+        font-size: 2.7px;
+        opacity: 0.5;
+        line-height: 5vw;
+        height: 5vw;
+        margin-right: -1px;
+        margin-top: -1px;
+        padding: 0;
+        text-align: center;
+        width: 5vw;
+      }
+      
+        
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 9vw;
+        height: 4vw;
+    }
+    
+    .switch input {display:none;}
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ca2222;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 3vw;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 3vw;
+        width: 3vw;
+        left: 1vw;
+        bottom: 1vw;
+        background-color: grey;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+        background-color: #2ab934;
+    }
+    
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+    
+    input:checked + .slider:before {
+        -webkit-transform: translateX(3vw);
+        -ms-transform: translateX(3vw);
+        transform: translateX(5vw);
+    }
+    
+    /*------ ADDED CSS ---------*/
+    .slider:after
+    {
+    content:'horizontal';
+    color: gray transparent;
+    display: block;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    font-size: 1.8vw;
+    font-family: Verdana, sans-serif;
+    }
+    
+    input:checked + .slider:after
+    {  
+        content:'vertical ';
+    }
+    
+    .move{
+        float: left;
+        margin-left: 10vw;
+        font-size: 4vw;
+    }
+
+    .mobi2{
+        margin:0 0 0 0;
+        height: 8vw;
+        width: 40vw;
+        font-size: 4vw;
+    }    
+
+    .btn1{
+        margin-top: 1.5vw;
+    }
+
+}
