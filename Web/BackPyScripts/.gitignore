@@ -260,5 +260,9 @@ paket-files/
 __pycache__/
 *.pyc
 
-nohup.out
-.*out
+board.txt
+pcscore.txt
+rack.txt
+username.txt
+userrack.txt
+userscore.txt
