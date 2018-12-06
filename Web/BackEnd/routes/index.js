@@ -160,7 +160,7 @@ router.get('/board',ensureAuth, function(req,res){
     });
 });
 
-router.get('/changerack',ensureAuth,function(req,res){
+router.get('/changerack',function(req,res){
   
     fs.readFile('./BackPyScripts/userrack.txt',function(err,data){
         var rack = data.toString();
@@ -185,12 +185,12 @@ router.get('/changerack',ensureAuth,function(req,res){
                         res.send('error');
                         
                         const { spawn } = require('child_process');
-                        const pyprog = spawn('python', ['./BackPyScripts/main.py']);
+                        const pyprog = spawn('python3', ['./BackPyScripts/main.py']);
 
                         pyprog.stdout.on('data', function(data) {
                             console.log(data.toString());
                             var yy = data.toString();
-                            if(yy.length==6){
+                            if(yy.length==5){
                                 console.log(yy);
                                 renderAll(res);
                             }
@@ -213,14 +213,15 @@ router.get('/changerack',ensureAuth,function(req,res){
     });
 });
 
-router.get('/gameonbitch',ensureAuth,function(req,res){
+router.get('/gameonbitch',function(req,res){
     const { spawn } = require('child_process');
-    const pyprog = spawn('python', ['./BackPyScripts/main.py']);
+    const pyprog = spawn('python3', ['./BackPyScripts/main.py']);
 
     pyprog.stdout.on('data', function(data) {
+	console.log(data.toString());
         console.log(data.toString().length);
         var yy = data.toString();
-        if(yy.length==6){
+        if(yy.length==5){
             console.log(yy);
             renderAll(res);
         }
@@ -288,18 +289,18 @@ function startNew(res){
 
 }
 
-router.get('/exit',ensureAuth,function(req,res){
+router.get('/exit',function(req,res){
     startNew(res);
 });
 
 router.post('/myturn',ensureAuth, function(req,res){
     console.log(req.body);
     const { spawn } = require('child_process');
-    const pyprog = spawn('python', ['./BackPyScripts/main1.py',req.body.word,req.body.row,req.body.col,req.body.hor]);
+    const pyprog = spawn('python3', ['./BackPyScripts/main1.py',req.body.word,req.body.row,req.body.col,req.body.hor]);
 
     pyprog.stdout.on('data', function(data) {
 
-            const pypro = spawn('python', ['./BackPyScripts/main.py']);
+            const pypro = spawn('python3', ['./BackPyScripts/main.py']);
 
             pypro.stdout.on('data', function(data) {
                 console.log(data.toString());
