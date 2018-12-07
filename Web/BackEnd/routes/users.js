@@ -40,7 +40,7 @@ router.post('/register', function (req, res) {
     var password = req.body.password;
     var password2 = req.body.confirm_password;
     var pass = req.body.password;
-    console.log(name + " " + email + " " + username + " " + password + " " + password2);
+    console.log( email + " " + username + " " + password + " " + password2);
 
     
     req.checkBody('email', 'Valid Email is required').isEmail();
