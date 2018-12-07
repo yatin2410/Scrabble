@@ -75,14 +75,14 @@ class Header extends React.Component{
                 <nav>
                     <ul class="nav nav-pills float-right">
                         <li class="nav-item">
-                            <a class="nav-link mobi" href="/">Deshboard</a>
+                            <a class="nav-link mobi" href="/">Dashboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link mobi" href="/users/logout">LogOut</a>
                         </li>
                     </ul>
                 </nav>
-                <h3 class="text-muted mobi1">Scrabble</h3>
+                <h2 class="text-muted mobi1">Scrabble</h2>
                 <hr/>
                 <div>
                     <div className="left-one">

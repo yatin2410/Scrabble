@@ -34,7 +34,7 @@ function ensureAuth(req, res, next) {
 
 router.post('/register', function (req, res) {
 
-    var name = req.body.name;
+    
     var email = req.body.email;
     var username = req.body.username;
     var password = req.body.password;
@@ -42,7 +42,7 @@ router.post('/register', function (req, res) {
     var pass = req.body.password;
     console.log(name + " " + email + " " + username + " " + password + " " + password2);
 
-    req.checkBody('name', 'Name is required').notEmpty();
+    
     req.checkBody('email', 'Valid Email is required').isEmail();
     req.checkBody('username', 'UserName is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
@@ -81,7 +81,6 @@ router.post('/register', function (req, res) {
                     else {
 
                         var newUser = new User({
-                            name: name,
                             email: email,
                             username: username,
                             password: password,

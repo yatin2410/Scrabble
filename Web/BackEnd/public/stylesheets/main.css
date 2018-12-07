@@ -83,3 +83,26 @@ body {
         border-bottom: 0;
     }
 }
+
+.fnt{
+    font-size:0.5vw;
+}
+
+.mobirule{
+    style:"padding-left:15vw";
+}
+
+@media only screen and (max-width: 800px) {
+    .mobi{
+        font-size: 3.5vw; 
+    }
+    .mobi1{
+        font-size: 4vw;
+    }
+    .mobirule
+    {
+        font-size: 3vw;
+        margin-top: 7vw;
+        padding-left: 0px;
+    }
+}

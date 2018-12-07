@@ -84,7 +84,7 @@ class Move extends React.Component{
                     <div className="form-group">
                         <label>Starting Position: {this.state.row} {this.state.col} </label>
                         <br/>
-                        <input type="search" id="name_input" name="search" autoComplete='off' className="form-control sldr1" placeholder="enter word" value={this.state.word} onChange={this.changeInput.bind(this)}/>
+                        <input type="search" title="suggestions are limited to word length 5" id="name_input" name="search" autoComplete='off' className="form-control sldr1" placeholder="enter word" value={this.state.word} onChange={this.changeInput.bind(this)}/>
                         <small style={{visibility:this.state.iserr ? 'visible' : 'hidden'}} class="form-text text-danger sldr2">{this.state.err}</small>
                         <label class="switch">
                             <input type="checkbox" id="togBtn" onChange={this.changeHV.bind(this)} />
