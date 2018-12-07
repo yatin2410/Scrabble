@@ -91,7 +91,7 @@ function renderAll(res){
 }
 
 
-function renderWithErr(res){
+function renderWithErr(res,errorTxt){
     var state={
         playerScore: 0,
         PCScore: 0,
@@ -99,7 +99,7 @@ function renderWithErr(res){
         playerRack: "",
         board:"",
         iserr:true,
-        err: 'not valid!!!'
+        err: errorTxt
         
     };
     fs.readFile('./BackPyScripts/rack.txt',function(err,data)
@@ -117,7 +117,6 @@ function renderWithErr(res){
                     state.playerScore = data.toString();
                     fs.readFile('./BackPyScripts/board.txt',function(err,data){
                     
-                        console.log(data);
                         data = data.toString('ascii');
                         console.log(data);
                         for(var i=0;i<data.length;i++)
@@ -308,15 +307,20 @@ router.post('/myturn',ensureAuth, function(req,res){
             });
 
             pypro.stderr.on('data', (data) => {
+                
                 res.send('err');
-                console.log(data.toString());
+                
             });
         
     });
 
     pyprog.stderr.on('data', (data) => {
         console.log(data.toString());
-        renderWithErr(res);
+        var strr = (    data.toString()).split('\n');
+        console.log(strr[strr.length-2]);
+       var errorTxt = strr[strr.length-2].replace("ValueError: ","");
+       console.log(errorTxt);
+        renderWithErr(res,errorTxt);
     });
 
 });
