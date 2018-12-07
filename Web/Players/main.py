@@ -6,7 +6,7 @@ import random
 import sys
 
 def getboard():
-    f =open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/board.txt'),'r')
+    f =open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/board.txt'),'r')
     stringboard = f.read()
     f.close()
     global boardArray
@@ -15,7 +15,7 @@ def getboard():
     boardArrayPrev = boardArray
 
 def getboard1():
-    f =open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/board.txt'),'r')
+    f =open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/board.txt'),'r')
     stringboard = f.read()
     f.close()
     global boardArray
@@ -23,7 +23,7 @@ def getboard1():
 
 
 def getboardCopy():
-    f =open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/board.txt'),'r')
+    f =open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/board.txt'),'r')
     stringboard = f.read()
     f.close()
     global boardCopy
@@ -31,7 +31,7 @@ def getboardCopy():
 
 
 def getboardValue():
-    f =open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/boardValue.txt'),'r')
+    f =open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/boardValue.txt'),'r')
     stringboard = f.read()
     f.close()
     global boardValue
@@ -39,9 +39,9 @@ def getboardValue():
 
 
 def getrack():
-    f=open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/rack.txt'),'r')
+    f=open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/rack.txt'),'r')
     global mainRack
-    g = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/MainRack.txt'),'r')
+    g = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/MainRack.txt'),'r')
     mainRack = str(g.read())
     g.close()
     global stringRack2
@@ -78,7 +78,7 @@ def getrack():
     f.close()
 
 def laodDist():
-    f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/dictionary.txt'),'r')
+    f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/dictionary.txt'),'r')
     dictArray = (f.read()).split('\n')
     global completion_dawg
     completion_dawg = dawg.CompletionDAWG(dictArray)
@@ -261,7 +261,7 @@ def move():
     
     if(possStart[ansIndex][2]==1):
         #print(" ---- HORIZONTLY ---- ")
-        f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/board.txt'),'w')
+        f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/board.txt'),'w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
                 if i==possStart[ansIndex][0] and j >= possStart[ansIndex][1] and j<possStart[ansIndex][1]+len(possArray[ansIndex]):
@@ -273,7 +273,7 @@ def move():
 
     if(possStart[ansIndex][2]==2):
         #print(" ---- VERTICALLY---- ")
-        f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/board.txt'),'w')
+        f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/board.txt'),'w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
                 if j==possStart[ansIndex][1] and i >= possStart[ansIndex][0] and i<possStart[ansIndex][0]+len(possArray[ansIndex]):
@@ -290,7 +290,7 @@ def move():
     global cscore 
     cscore += mx
     #print(cscore)
-    f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/pcscore.txt'),'w')
+    f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/pcscore.txt'),'w')
     f.write(str(cscore))
     f.close()
 
@@ -363,7 +363,7 @@ def userMove():
     
     if(id==1):
         #print(" ---- HORIZONTLY ---- \nWord is :"+word+"\n")
-        f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/board.txt'),'w')
+        f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/board.txt'),'w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
                 if i==row-1 and j >= col-1 and j<col-1+len(word):
@@ -375,7 +375,7 @@ def userMove():
         
     if(id==2):
         #print(" ---- VERTICALLY---- \nWord is :"+word+"\n")
-        f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/board.txt'),'w')
+        f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/board.txt'),'w')
         for i,strr in enumerate(boardCopy):
             for j,char in enumerate(strr):
                 if j==col-1 and i >= row-1 and i<row-1+len(word):
@@ -421,10 +421,10 @@ def changeRack(which):
         # print(mainRack)
         # print(cRack)
         cRack = cRack + ds
-        f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/MainRack.txt'),'w')
+        f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/MainRack.txt'),'w')
         f.write(mainRack)
         f.close()
-        f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/rack.txt'),'w')
+        f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/rack.txt'),'w')
         f.write(cRack)
         f.close()
     else:
@@ -448,19 +448,19 @@ if __name__ == "__main__":
     getboard()
     getrack()
     global cscore
-    f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/pcscore.txt'),'r')
+    f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/pcscore.txt'),'r')
     cscore = int(f.read())
     f.close()
     global userScore
-    f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/userscore.txt'),'r')
+    f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/userscore.txt'),'r')
     userScore = int(f.read())
     f.close()
     global cRack
-    f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/rack.txt'),'r')
+    f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/rack.txt'),'r')
     cRack = f.read()
     f.close()
     global userRack
-    f = open(os.path.join(os.getcwd()+'./Players/'+sys.argv[1]+'/userrack.txt'),'r')
+    f = open(os.path.join(os.getcwd()+'/Players/'+sys.argv[1]+'/userrack.txt'),'r')
     userRack = f.read()
     f.close()
     changeRack(0)
