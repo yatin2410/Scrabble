@@ -2,13 +2,13 @@
 var express = require('express');
 var router = express.Router();
 import path from 'path';
-import { stat } from 'fs';
-import { func } from 'prop-types';
 var fs = require('fs');
 /* GET home page. */
-router.get('/',  function (req, res) {
+router.get('/', ensureAuth, function (req, res) {
     res.sendFile(path.join(__dirname,'../index.html'));
 });
+
+var backpath = path.join(__dirname+'./Players');
 
 function renderHeader(res){
     var state={
@@ -17,16 +17,16 @@ function renderHeader(res){
         PCRack: "",
         playerRack: ""
     };
-    fs.readFile('./BackPyScripts/rack.txt',function(err,data)
+    fs.readFile(path.join(backpath,'/rack.txt'),function(err,data)
     {
         state.PCRack = data.toString();
-        fs.readFile('./BackPyScripts/userrack.txt',function(err,data)
+        fs.readFile(path.join(backpath,'/userrack.txt'),function(err,data)
         {
             state.playerRack = data.toString();
-            fs.readFile('./BackPyScripts/pcscore.txt',function(err,data)
+            fs.readFile(path.join(backpath,'/pcscore.txt'),function(err,data)
             {
                 state.PCScore = data.toString();
-                fs.readFile('./BackPyScripts/userscore.txt',function(err,data)
+                fs.readFile(path.join(backpath,'/userscore.txt'),function(err,data)
                 {
                     state.playerScore = data.toString();
                     console.log(state);
@@ -50,20 +50,20 @@ function renderAll(res){
         playerRack: "",
         board:"",
     };
-    fs.readFile('./BackPyScripts/rack.txt',function(err,data)
+    fs.readFile(path.join(backpath,'/rack.txt'),function(err,data)
     {
         state.PCRack = data.toString();
-        fs.readFile('./BackPyScripts/userrack.txt',function(err,data)
+        fs.readFile(path.join(backpath,'/userrack.txt'),function(err,data)
         {
             state.playerRack = data.toString();
-            fs.readFile('./BackPyScripts/pcscore.txt',function(err,data)
+            fs.readFile(path.join(backpath,'/pcscore.txt'),function(err,data)
             {
                 console.log('pcscore',data.toString());
                 state.PCScore = data.toString();
-                fs.readFile('./BackPyScripts/userscore.txt',function(err,data)
+                fs.readFile(path.join(backpath,'/userscore.txt'),function(err,data)
                 {
                     state.playerScore = data.toString();
-                    fs.readFile('./BackPyScripts/board.txt',function(err,data){
+                    fs.readFile(path.join(backpath,'/board.txt'),function(err,data){
                     
                         console.log(data);
                         data = data.toString('ascii');
@@ -102,20 +102,20 @@ function renderWithErr(res,errorTxt){
         err: errorTxt
         
     };
-    fs.readFile('./BackPyScripts/rack.txt',function(err,data)
+    fs.readFile(path.join(backpath,'/rack.txt'),function(err,data)
     {
         state.PCRack = data.toString();
-        fs.readFile('./BackPyScripts/userrack.txt',function(err,data)
+        fs.readFile(path.join(backpath,'/userrack.txt'),function(err,data)
         {
             state.playerRack = data.toString();
-            fs.readFile('./BackPyScripts/pcscore.txt',function(err,data)
+            fs.readFile(path.join(backpath,'/pcscore.txt'),function(err,data)
             {
                 console.log('pcscore',data.toString());
                 state.PCScore = data.toString();
-                fs.readFile('./BackPyScripts/userscore.txt',function(err,data)
+                fs.readFile(path.join(backpath,'/userscore.txt'),function(err,data)
                 {
                     state.playerScore = data.toString();
-                    fs.readFile('./BackPyScripts/board.txt',function(err,data){
+                    fs.readFile(path.join(backpath,'/board.txt'),function(err,data){
                     
                         data = data.toString('ascii');
                         console.log(data);
@@ -141,12 +141,12 @@ function renderWithErr(res,errorTxt){
 }
 
 
-router.get('/rackandscore', function(req,res){
+router.get('/rackandscore',ensureAuth, function(req,res){
     renderHeader(res);
 });
 
-router.get('/board', function(req,res){
-    fs.readFile('./BackPyScripts/board.txt',function(err,data){
+router.get('/board',ensureAuth, function(req,res){
+    fs.readFile(path.join(backpath,'/board.txt'),function(err,data){
         console.log(data);
         data = data.toString('ascii');
         console.log(data);
@@ -159,11 +159,11 @@ router.get('/board', function(req,res){
     });
 });
 
-router.get('/changerack',function(req,res){
+router.get('/changerack',ensureAuth, function(req,res){
   
-    fs.readFile('./BackPyScripts/userrack.txt',function(err,data){
+    fs.readFile(path.join(backpath,'/userrack.txt'),function(err,data){
         var rack = data.toString();
-        fs.readFile('./BackPyScripts/MainRack.txt',function(err,data){
+        fs.readFile(path.join(backpath,'/MainRack.txt'),function(err,data){
             var strr = data.toString();
                 strr = strr + rack;
                 rack = "";
@@ -177,14 +177,14 @@ router.get('/changerack',function(req,res){
                     strr = strr.replace(c,"");
                     rack += c;
                 }
-                fs.writeFile('./BackPyScripts/MainRack.txt',strr,function(err){
+                fs.writeFile(path.join(backpath,'/MainRack.txt'),strr,function(err){
                         
-                fs.writeFile('./BackPyScripts/userrack.txt',rack,function(err){
+                fs.writeFile(path.join(backpath,'/userrack.txt'),rack,function(err){
                     if(err)
                         res.send('error');
                         
                         const { spawn } = require('child_process');
-                        const pyprog = spawn('python3', ['./BackPyScripts/main.py']);
+                        const pyprog = spawn('python3', [path.join(backpath,'/main.py')]);
 
                         pyprog.stdout.on('data', function(data) {
                             console.log(data.toString());
@@ -212,9 +212,9 @@ router.get('/changerack',function(req,res){
     });
 });
 
-router.get('/gameonbitch',function(req,res){
+router.get('/gameonbitch',ensureAuth, function(req,res){
     const { spawn } = require('child_process');
-    const pyprog = spawn('python3', ['./BackPyScripts/main.py']);
+    const pyprog = spawn('python3', [(path.join(backpath,'/main.py'))]);
 
     pyprog.stdout.on('data', function(data) {
 	console.log(data.toString());
@@ -238,8 +238,8 @@ router.get('/gameonbitch',function(req,res){
 });
 
 function startNew(res){
-    fs.writeFile('./BackPyScripts/userscore.txt',"0",function(err){
-        fs.writeFile('./BackPyScripts/pcscore.txt',"0",function(err){
+    fs.writeFile(path.join(backpath,'/userscore.txt'),"0",function(err){
+        fs.writeFile(path.join(backpath,'/pcscore.txt'),"0",function(err){
             var str = "";
             for(var i=0;i<15;i++)
             {
@@ -250,25 +250,25 @@ function startNew(res){
                 if(i!=14)
                     str += "\r\n";
             }
-            fs.writeFile('./BackPyScripts/board.txt',str,function(err){
+            fs.writeFile(path.join(backpath,'/board.txt'),str,function(err){
                var strr = "";
-                fs.readFile('./BackPyScripts/InitRack.txt',function(err,data){
+                fs.readFile(path.join(backpath,'/InitRack.txt'),function(err,data){
                     strr = data.toString();
-                    fs.writeFile('./BackPyScripts/MainRack.txt',strr,function(err){
+                    fs.writeFile(path.join(backpath,'/MainRack.txt'),strr,function(err){
                         
-                    fs.readFile('./BackPyScripts/userrack.txt',function(err,data){
+                    fs.readFile(path.join(backpath,'/userrack.txt'),function(err,data){
                         var rack = data.toString();
-                        fs.readFile('./BackPyScripts/MainRack.txt',function(err,data){
+                        fs.readFile(path.join(backpath,'/MainRack.txt'),function(err,data){
                             var strr = data.toString();
                                 for (var i=0;i<7;i++)
                                 {
                                     var c = rack.charAt(i);
                                     strr.replace(c,"");
                                 }
-                                fs.writeFile('./BackPyScripts/MainRack.txt',strr,function(err){
+                                fs.writeFile(path.join(backpath,'/MainRack.txt'),strr,function(err){
                                         
-                                fs.writeFile('./BackPyScripts/userrack.txt',rack,function(err){
-                                    fs.writeFile('./BackPyScripts/rack.txt',"",function(err){
+                                fs.writeFile(path.join(backpath,'/userrack.txt'),rack,function(err){
+                                    fs.writeFile(path.join(backpath,'/rack.txt'),"",function(err){
                                         
                                     renderAll(res);
                                     });
@@ -288,18 +288,18 @@ function startNew(res){
 
 }
 
-router.get('/exit',function(req,res){
+router.get('/exit',ensureAuth, function(req,res){
     startNew(res);
 });
 
-router.post('/myturn', function(req,res){
+router.post('/myturn',ensureAuth, function(req,res){
     console.log(req.body);
     const { spawn } = require('child_process');
-    const pyprog = spawn('python3', ['./BackPyScripts/main1.py',req.body.word,req.body.row,req.body.col,req.body.hor]);
+    const pyprog = spawn('python3', [(path.join(backpath,'/main1.py',req.body.word,req.body.row,req.body.col,req.body.hor))]);
 
     pyprog.stdout.on('data', function(data) {
 
-            const pypro = spawn('python3', ['./BackPyScripts/main.py']);
+            const pypro = spawn('python3', [(path.join(backpath,'/main.py'))]);
 
             pypro.stdout.on('data', function(data) {
                 console.log(data.toString());
@@ -323,11 +323,6 @@ router.post('/myturn', function(req,res){
         renderWithErr(res,errorTxt);
     });
 
-});
-
-
-router.get('/search',function(req,res){
-    
 });
 
 function ensureAuth(req,res,next) {
