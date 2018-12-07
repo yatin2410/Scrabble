@@ -471,9 +471,6 @@ if __name__ == "__main__":
     # print(os.path.abspath(__file__))
     getboard()
     getrack()
-    f = open('./BackPyScripts/username.txt','r')
-    userName = f.read()
-    f.close()
     global cscore
     f = open('./BackPyScripts/pcscore.txt','r')
     cscore = int(f.read())
@@ -492,4 +489,4 @@ if __name__ == "__main__":
     f.close()
     userMove()
     changeRack(1)
-    print("DONE")
+    print("D")

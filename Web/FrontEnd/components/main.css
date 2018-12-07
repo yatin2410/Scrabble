@@ -1,37 +1,7 @@
-﻿/* Space out content a bit */
-body {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+﻿
+.container{
+    margin-top: 15px;
 }
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-    padding-right: 1rem;
-    padding-left: 1rem;
-}
-
-/* Custom page header */
-.header {
-    padding-bottom: 1rem;
-    border-bottom: .05rem solid #e5e5e5;
-}
-
-    /* Make the masthead heading the same height as the navigation */
-    .header h3 {
-        margin-top: 0;
-        margin-bottom: 0;
-        line-height: 3rem;
-    }
-
-/* Custom page footer */
-.footer {
-    padding-top: 1.5rem;
-    color: #777;
-    border-top: .05rem solid #e5e5e5;
-}
-
 /* Customize container */
 @media (min-width: 48em) {
     .container {
@@ -139,15 +109,13 @@ body {
 }
 
 .move{
-    float: right;
+    float: left;
+    margin-left: 100px;
 }
 
-.form{
-    margin-right: 150px;
-}
 
 .btn1{
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .rackscore{
@@ -230,4 +198,181 @@ body {
     margin-bottom : 10px;
   }
 
+  
+  .aa-input-container {
+    display: inline-block;
+    position: relative; }
+  .aa-input-search {
+    width: 300px;
+    border: 1px solid rgba(228, 228, 228, 0.6);
+    padding: 12px 28px 12px 12px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none; }
+    .aa-input-search::-webkit-search-decoration, .aa-input-search::-webkit-search-cancel-button, .aa-input-search::-webkit-search-results-button, .aa-input-search::-webkit-search-results-decoration {
+      display: none; }
+  .aa-input-icon {
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    fill: #e4e4e4; }
+  .aa-dropdown-menu {
+    background-color: #fff;
+    border: 1px solid rgba(228, 228, 228, 0.6);
+    min-width: 300px;
+    margin-top: 10px;
+    box-sizing: border-box; }
+  .aa-suggestion {
+    padding: 12px;
+    cursor: pointer;
+  }
+  .aa-suggestion + .aa-suggestion {
+      border-top: 1px solid rgba(228, 228, 228, 0.6);
+  }
+    .aa-suggestion:hover, .aa-suggestion.aa-cursor {
+      background-color: rgba(241, 241, 241, 0.35); }
+
+
   /*--------- END --------*/
+
+  
+
+  /*-------Mobile View Begin-----*/
+  @media only screen and (max-width: 800px) {
+    .mobi{
+        font-size: 3.3vw; 
+    }
+    .mobi1{
+        font-size: 3.5vw;
+    }
+    
+    .board
+    {    
+        margin-top: 10px;
+        float: left;
+        margin-left: 10%;
+    }
+
+    .square {
+        background: #fff;
+        border: 1px solid #999;
+        float: left;
+        font-size: 2.7vw;
+        font-weight: bold;
+        line-height: 5vw;
+        height: 5vw;
+        margin-right: -1px;
+        margin-top: -1px;
+        padding: 0;
+        text-align: center;
+        width: 5vw;
+      }
+      
+      .sqr {
+        background: #fff;
+        border: 1px solid #999;
+        float: left;
+        font-size: 2.3vw;
+        opacity: 0.5;
+        line-height: 5vw;
+        height: 5vw;
+        margin-right: -1px;
+        margin-top: -1px;
+        padding: 0;
+        text-align: center;
+        width: 5vw;
+      }
+      
+        
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 9vw;
+        height: 4vw;
+    }
+    
+    .switch input {display:none;}
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ca2222;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 3vw;
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 3vw;
+        width: 3vw;
+        left: 1vw;
+        bottom: 1vw;
+        background-color: grey;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+        background-color: #2ab934;
+    }
+    
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+    
+    input:checked + .slider:before {
+        -webkit-transform: translateX(3vw);
+        -ms-transform: translateX(3vw);
+        transform: translateX(5vw);
+    }
+    
+    /*------ ADDED CSS ---------*/
+    .slider:after
+    {
+    content:'horizontal';
+    color: gray transparent;
+    display: block;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    font-size: 1.8vw;
+    font-family: Verdana, sans-serif;
+    }
+    
+    input:checked + .slider:after
+    {  
+        content:'vertical ';
+    }
+    
+    .move{
+        float: left;
+        margin-left: 10vw;
+        font-size: 4vw;
+    }
+
+    .mobi2{
+        margin:0 0 0 0;
+        height: 11vw;
+        width: 35vw;
+        font-size: 3vw;
+        padding-bottom: 1vm;
+    }    
+
+    .btn1{
+        margin-top: 1.5vw;
+    }
+
+}

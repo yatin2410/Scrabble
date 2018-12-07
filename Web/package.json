@@ -4,7 +4,8 @@
   "description": "The populer Scrabble Game + AI Agent",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon --watch BackEnd --exec babel-node -- BackEnd/app.js"
+    "server": "nodemon --watch BackEnd --exec babel-node -- BackEnd/app.js",
+    "initial": "node initial.js"
   },
   "author": "Yatin Patel",
   "license": "ISC",
@@ -23,6 +24,8 @@
   },
   "dependencies": {
     "@types/react-router": "^4.4.0",
+    "algolia-react-autocomplete": "^1.0.5",
+    "algoliasearch": "^3.31.0",
     "axios": "^0.12.0",
     "bcryptjs": "*",
     "body-parser": "^1.15.0",
