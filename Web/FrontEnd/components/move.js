@@ -2,6 +2,25 @@ import React from 'react';
 import './main.css';
 import './bootstrap.css';
 
+
+class Component extends React.Component {
+    componentDidMount() {
+      window.component = this;
+    }
+    
+    change(word) {
+        console.log(word);
+       this.props.changeWord(word);
+    }
+    
+    render() {
+      return (      
+        <div></div>     
+      );
+    }
+  }
+  
+
 class Move extends React.Component{
 
     constructor(props)
@@ -38,8 +57,15 @@ class Move extends React.Component{
         }
     }
 
+    changeWord(word)
+    {
+        console.log("in change");
+        this.setState({word:word});
+    }
+
     changeInput(eve)
     {
+        console.log("in change");
         this.setState({word:eve.target.value});
     }
 
@@ -88,6 +114,10 @@ class Move extends React.Component{
                     </button>
                     </div>
                     </div>
+            
+                    <Component
+                        changeWord= {this.changeWord.bind(this)}
+                    />
             </div>
         );
     }

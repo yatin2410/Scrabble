@@ -29,6 +29,9 @@
 						suggestion._highlightResult.name.value + '</span>';
 					}
 				}
+			}).on('autocomplete:selected',function(event,suggestion,dataset)
+			{
+				window.component.change(suggestion.name);
 			});
 
 	    </script>
