@@ -6,7 +6,7 @@ import { stat } from 'fs';
 import { func } from 'prop-types';
 var fs = require('fs');
 /* GET home page. */
-router.get('/', ensureAuth, function (req, res) {
+router.get('/',  function (req, res) {
     res.sendFile(path.join(__dirname,'../index.html'));
 });
 
@@ -141,11 +141,11 @@ function renderWithErr(res,errorTxt){
 }
 
 
-router.get('/rackandscore',ensureAuth, function(req,res){
+router.get('/rackandscore', function(req,res){
     renderHeader(res);
 });
 
-router.get('/board',ensureAuth, function(req,res){
+router.get('/board', function(req,res){
     fs.readFile('./BackPyScripts/board.txt',function(err,data){
         console.log(data);
         data = data.toString('ascii');
@@ -292,7 +292,7 @@ router.get('/exit',function(req,res){
     startNew(res);
 });
 
-router.post('/myturn',ensureAuth, function(req,res){
+router.post('/myturn', function(req,res){
     console.log(req.body);
     const { spawn } = require('child_process');
     const pyprog = spawn('python3', ['./BackPyScripts/main1.py',req.body.word,req.body.row,req.body.col,req.body.hor]);
