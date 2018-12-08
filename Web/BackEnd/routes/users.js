@@ -44,7 +44,7 @@ router.post('/register', function (req, res) {
 
     
     req.checkBody('email', 'Valid Email is required').isEmail();
-    req.checkBody('username', 'UserName is required').notEmpty();
+    req.checkBody('username', 'Username is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
     req.checkBody('confirm_password', 'Password do not match').equals(password);
 
@@ -72,7 +72,7 @@ router.post('/register', function (req, res) {
 
                 User.find({ username: username }, function (err, docs) {
                     if (docs.length) {
-                        var usernameerr = "UserName is already taken!";
+                        var usernameerr = "Username is already taken!";
                         res.render('register', {
                             usernameerr: usernameerr
                         });
@@ -102,7 +102,7 @@ router.post('/register', function (req, res) {
                                     return ;
                                 }   
                                 else{
-                                req.flash('success_msg', 'You are registered and can now login in');
+                                req.flash('success_msg', 'You are registered and can login');
                                 res.redirect('/users/login');
 
                                 console.log('Registarion DONE!');
@@ -172,7 +172,7 @@ router.post('/login',
 
 router.get('/logout', ensureAuthLogout, function (req, res) {
     req.logout();
-    req.flash('success_msg', 'You successfully logeged out');
+    req.flash('success_msg', 'You have successfully logged out');
 
     res.redirect('/users/login');
 });
@@ -209,7 +209,7 @@ router.post('/forgetpass', function (req, res) {
 
                 //TODO: add code for sent email for change password
 
-                var messg = 'Password Change link is sent to Your Email';
+                var messg = 'This is currently unavailable, please create another account.';
                 res.render('login', {
                     messg: messg
                 });
