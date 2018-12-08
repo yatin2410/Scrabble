@@ -4,6 +4,9 @@ var router = express.Router();
 var User = require('../models/user');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var ncp = require('ncp');
+var path = require('path')
+
 
 /* GET users listing. */
 router.get('/register', ensureAuth, function (req, res) {
@@ -31,15 +34,15 @@ function ensureAuth(req, res, next) {
 
 router.post('/register', function (req, res) {
 
-    var name = req.body.name;
+    
     var email = req.body.email;
     var username = req.body.username;
     var password = req.body.password;
     var password2 = req.body.confirm_password;
     var pass = req.body.password;
-    console.log(name + " " + email + " " + username + " " + password + " " + password2);
+    console.log( email + " " + username + " " + password + " " + password2);
 
-    req.checkBody('name', 'Name is required').notEmpty();
+    
     req.checkBody('email', 'Valid Email is required').isEmail();
     req.checkBody('username', 'UserName is required').notEmpty();
     req.checkBody('password', 'Password is required').notEmpty();
@@ -78,7 +81,6 @@ router.post('/register', function (req, res) {
                     else {
 
                         var newUser = new User({
-                            name: name,
                             email: email,
                             username: username,
                             password: password,
@@ -86,13 +88,28 @@ router.post('/register', function (req, res) {
                         });
 
                         User.createUser(newUser, function (err, user) {
-                            if (err) throw err;
-                            console.log(user);
+                            if (err) {
+                                console.log(err);
+                                return;
+                            }
+                            ncp(path.join(__dirname+"/../../Players/InitialGame"),path.join(__dirname+"/../../Players/"+username),function(err) {
+                                if(err)
+                                {
+                                    res.render('register', {
+                                        errors: "Can't process"
+                                    });
+                                    console.log(err);
+                                    return ;
+                                }   
+                                else{
+                                req.flash('success_msg', 'You are registered and can now login in');
+                                res.redirect('/users/login');
+
+                                console.log('Registarion DONE!');
+                                console.log(user);
+                                }
+                            }); 
                         });
-
-                        req.flash('success_msg', 'You are registered and can now login in');
-                        res.redirect('/users/login');
-
                     }
                 });
 
@@ -109,13 +126,19 @@ router.post('/register', function (req, res) {
 passport.use(new LocalStrategy(
     function (username, password, done) {
         User.getUserByUsername(username, function (err, user) {
-            if (err) throw err;
+            if (err) {
+                console.log(err);
+                return;
+            }
             if (!user) {
                 return done(null, false, { message: 'Unknown User' });
             }
 
             User.comparePassword(password, user.password, function (err, isMatch) {
-                if (err) throw err;
+                if (err){
+                    console.log(err);
+                    return;
+                }
                 if (isMatch)
                     return done(null, user);
                 else

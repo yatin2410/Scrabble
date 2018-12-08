@@ -17,10 +17,6 @@ var UserSchema = mongoose.Schema({
         type: String,
     },
 
-    name: {
-        type: String
-    },
-
     pass:{
         type: String
     },
