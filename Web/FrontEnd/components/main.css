@@ -103,6 +103,16 @@
     width: 40px;
   }
   
+  .sqr:focus {
+      background: green;
+      border: 2px solid #000000;
+  }
+
+  .square:focus{
+      background: lightgreen;
+      border: 2px solid #000000;
+  }
+
 
 .board{
   float :left;
@@ -360,8 +370,8 @@
     .switch {
         position: relative;
         display: inline-block;
-        width: 9vw;
-        height: 4vw;
+        width: 12vw;
+        height: 7vw;
     }
     
     .switch input {display:none;}
@@ -382,8 +392,8 @@
     .slider:before {
         position: absolute;
         content: "";
-        height: 3vw;
-        width: 3vw;
+        height: 5vw;
+        width: 5vw;
         left: 1vw;
         bottom: 1vw;
         background-color: grey;
@@ -445,3 +455,35 @@
 
 }
 
+@media only screen and (max-height:500px) {
+.square {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 2.7vw;
+    font-weight: bold;
+    line-height: 5vw;
+    height: 5vw;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 4vw;
+  }
+  
+  .sqr {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 2.3vw;
+    opacity: 0.5;
+    line-height: 5vw;
+    height: 5vw;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 4vw;
+  }
+
+}
