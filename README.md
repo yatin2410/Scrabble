@@ -1,6 +1,6 @@
 # Scrabble
 
-Here is the demo [Website](https://www.scbl.tk/). 
+Here is the demo [Website](https://scbl.herokuapp.com/). 
 
 This Repo is for making Scrabble game. Please See these [PPT](https://drive.google.com/open?id=1_5sNTi9b4LrgvKK2xaYl-PBIJNzqiGW1) for understanding algorithm and working model.
 
@@ -23,7 +23,7 @@ Python3
 first clone this git repository or download zip file.
 
 ```
-git clone https://github.com/milandungrani/scrabble.git
+git clone https://github.com/yatin2410/Scrabble.git
 ```
 
 
@@ -46,6 +46,44 @@ starting script
 
 ```
 python main.py
+````
+
+## Running on WEB
+
+## Getting Started (WEBAPP)
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+```
+Python3, node and mongodb
+```
+
+### Installing
+
+first clone this git repository or download zip file.
+
+```
+git clone https://github.com/yatin2410/Scrabble.git
+```
+
+Now, go to folder
+
+```
+cd scrabble\Web
+```
+Installing dependancies
+
+```
+pip install dawg
+```
+```
+npm install 
+```
+now run using 
+```
+npm run server
 ````
 
 ## License
