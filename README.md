@@ -48,8 +48,6 @@ starting script
 python main.py
 ````
 
-## Running on WEB
-
 ## Getting Started (WEBAPP)
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
