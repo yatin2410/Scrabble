@@ -33,7 +33,7 @@
     "connect-flash": "*",
     "cookie-parser": "^1.4.0",
     "debug": "^2.2.0",
-    "express": "^4.14.0",
+    "express": "^4.17.3",
     "express-handlebars": "*",
     "express-messages": "*",
     "express-session": "*",
